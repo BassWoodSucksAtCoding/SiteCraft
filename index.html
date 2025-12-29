@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Rebel Tech Alliance</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Orbitron:wght@400;700;900&family=Audiowide&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <!-- Navigation Bar -->
     <nav>
-        <a href="EasterEgg.html" class="logo">✦ Nokia Union</a>
+        <a href="index.html" class="logo">✦ Nokia Union</a>
         <ul class="nav-links">
-            <li><a href="NextPage.html">Math Utilities</a></li>
-            <li><a href="Enlist.html">IT Utilities</a></li>
+            <li><a href="math.html">Math Utilities</a></li>
+            <li><a href="it.html">IT Utilities</a></li>
             <li><a href="About.html">About</a></li>
-            <li><a href="Extras.html">Coding Problems</a></li>
+            <li><a href="coding.html">Coding Problems</a></li>
         </ul>
     </nav>
 
@@ -28,8 +28,8 @@
                 Come explore our collection of free tools and utilities meant for everyday use. From calculators to converters to timers, we've got you covered.
             </p>
             <div style="display:flex; gap:12px; margin-top:10px; justify-content:center;">
-                <a href="NextPage.html" class="hero-btn">Mathematics</a>
-                <a href="Enlist.html" class="hero-btn">IT and Computer Science</a>
+                <a href="math.html" class="hero-btn">Mathematics</a>
+                <a href="it.html" class="hero-btn">IT and Computer Science</a>
             </div>
         </div>
 
@@ -115,9 +115,9 @@
             <h3>Ready to Get Started?</h3>
             <p>Pick your path and explore what Nokia Union has to offer</p>
             <div class="button-group" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                <a href="Extras.html" class="btn-primary">Solve Challenges</a>
-                <a href="Enlist.html" class="btn-primary">Dev Tools</a>
-                <a href="NextPage.html" class="btn-primary">Math Tools</a>
+                <a href="coding.html" class="btn-primary">Solve Challenges</a>
+                <a href="it.html" class="btn-primary">Dev Tools</a>
+                <a href="math.html" class="btn-primary">Math Tools</a>
                 <a href="About.html" class="btn-secondary">Learn More</a>
             </div>
         </div>
@@ -789,5 +789,210 @@
             animate();
         }
     </script>
+
+    <!-- Boredom Slide-in Popup -->
+<div id="boredPopup" style="
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    width: 360px;
+
+    /* 🔵 BLUE GLASS BACKGROUND */
+    background: rgba(30, 64, 175, 0.35);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    color: #e0f2ff;
+
+    padding: 26px 28px;
+    border-radius: 16px;
+    box-shadow:
+        0 18px 50px rgba(0, 0, 0, 0.45),
+        0 0 30px rgba(59, 130, 246, 0.45);
+
+    border: 1px solid rgba(147, 197, 253, 0.35);
+
+    font-size: 1.05rem;
+    z-index: 9999;
+    transform: translateX(120%);
+    opacity: 0;
+    transition: transform 0.6s ease, opacity 0.6s ease;
+">
+    <p style="
+        margin-bottom: 22px;
+        line-height: 1.5;
+        color: #dbeafe;
+    ">
+        😴 Feel bored? <br>
+        <span style="color:#bfdbfe; font-size:0.95rem;">
+            Here’s something cool for you.
+        </span>
+    </p>
+
+    <div style="display: flex; gap: 14px;">
+        <button onclick="handleLetsGo()" style="
+            flex: 1;
+            padding: 12px 14px;
+            font-size: 0.95rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: #eff6ff;
+            box-shadow: 0 0 16px rgba(59,130,246,0.6);
+        ">
+            Let’s Go
+        </button>
+
+        <button onclick="handleNoThanks()" style="
+            flex: 1;
+            padding: 12px 14px;
+            font-size: 0.95rem;
+            border-radius: 10px;
+            cursor: pointer;
+            background: rgba(255,255,255,0.05);
+            color: #c7d2fe;
+            border: 1px solid rgba(147, 197, 253, 0.4);
+        ">
+            No Thanks
+        </button>
+    </div>
+</div>
+
+<script>
+(function () {
+    const POPUP_INTERVAL = 10 * 1000;
+    const popup = document.getElementById("boredPopup");
+    let popupVisible = false;
+
+    /* ---------- AUDIO SYSTEM ---------- */
+    let audioCtx = null;
+    let audioUnlocked = false;
+
+    function unlockAudio() {
+        if (audioUnlocked) return;
+
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        audioCtx.resume().then(() => {
+            audioUnlocked = true;
+        });
+
+        document.removeEventListener("click", unlockAudio);
+        document.removeEventListener("keydown", unlockAudio);
+    }
+
+    document.addEventListener("click", unlockAudio);
+    document.addEventListener("keydown", unlockAudio);
+
+    /* ❌ SHARP CLICK (No Thanks) */
+    function playClickSound() {
+        if (!audioUnlocked) return;
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = "square";
+        osc.frequency.value = 900;
+        gain.gain.value = 0.06;
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.06);
+    }
+
+    /* ✅ SOFT TAP / CONFIRM (Let’s Go) */
+    function playConfirmSound() {
+        if (!audioUnlocked) return;
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(420, audioCtx.currentTime);
+
+        gain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+        gain.gain.linearRampToValueAtTime(
+            0.045,
+            audioCtx.currentTime + 0.01
+        );
+        gain.gain.exponentialRampToValueAtTime(
+            0.0001,
+            audioCtx.currentTime + 0.12
+        );
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.13);
+    }
+
+    /* 🌬️ POPUP APPEAR WHOOSH */
+    function playAppearSound() {
+        if (!audioUnlocked) return;
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(320, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(
+            620,
+            audioCtx.currentTime + 0.18
+        );
+
+        gain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(
+            0.035,
+            audioCtx.currentTime + 0.05
+        );
+        gain.gain.exponentialRampToValueAtTime(
+            0.0001,
+            audioCtx.currentTime + 0.28
+        );
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.3);
+    }
+
+    /* ---------- POPUP LOGIC ---------- */
+    function showPopup() {
+        if (popupVisible) return;
+
+        popup.style.transform = "translateX(0)";
+        popup.style.opacity = "1";
+        popupVisible = true;
+
+        playAppearSound();
+    }
+
+    function hidePopup() {
+        popup.style.transform = "translateX(120%)";
+        popup.style.opacity = "0";
+        popupVisible = false;
+    }
+
+    /* ---------- BUTTON HANDLERS ---------- */
+    window.handleNoThanks = function () {
+        playClickSound();
+        hidePopup();
+    };
+
+    window.handleLetsGo = function () {
+        playConfirmSound();
+        setTimeout(() => {
+            window.location.href = "games.html";
+        }, 140);
+    };
+
+    setTimeout(showPopup, 1500);
+    setInterval(showPopup, POPUP_INTERVAL);
+})();
+</script>
 </body>
 </html>

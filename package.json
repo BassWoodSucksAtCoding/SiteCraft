@@ -1,0 +1,12 @@
+{
+  "name": "sitecraft-dynamic",
+  "version": "1.0.0",
+  "description": "Small Express server to serve SiteCraft files and provide dynamic metadata.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools - Everyday Utilities</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Orbitron:wght@400;700;900&family=Audiowide&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="math.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="index.html" class="logo">✦ Nokia Union</a>
+        <ul class="nav-links">
+            <li><a href="math.html">Math Utilities</a></li>
+            <li><a href="it.html">IT Utilities</a></li>
+            <li><a href="About.html">About</a></li>
+            <li><a href="coding.html">Coding Problems</a></li>
+        </ul>
+    </nav>
+
+    <!-- Tech Repository Hero Section -->
+    <section class="tech-hero" id="home">
+        <div class="tech-hero-content">
+            <h1>MATHEMATICAL UTILITIES</h1>
+            <p class="tech-subtitle">Free Utilities for Daily Life</p>
+            <div class="data-stream">
+                <span class="data-dot"></span>
+                <span class="data-dot"></span>
+                <span class="data-dot"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Showcase Section -->
+    <section class="tech-showcase" id="innovations">
+        <div class="showcase-container">
+            <h2 class="showcase-title">Tools You'll Actually Use</h2>
+            
+            <div class="tech-grid">
+                <!-- Simple Calculator (expanded) -->
+                <div class="tech-item">
+                    <div class="tech-item-header">
+                        <span class="tech-label">MATH</span>
+                        <span class="tech-status">READY</span>
+                    </div>
+                    <h3>Calculator</h3>
+                    <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-bottom: 10px;">Basic and handy operations: add, subtract, multiply, divide, percent, power, sqrt, and discount (use first number as price and second as %).</p>
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
+                        <input type="number" id="calcNum1" placeholder="First number" style="padding: 8px; background: rgba(255,255,255,0.06); border: 1px solid rgba(234, 102, 102, 0.25); border-radius: 5px; color: #fff; font-size: 0.9rem;">
+                        <select id="calcOperation" style="padding: 8px; background: rgba(255,255,255,0.06); border: 1px solid rgba(234, 102, 102, 0.25); border-radius: 5px; color: #fd8080;">
+                            <option value="+">+ (Add)</option>
+                            <option value="-">- (Subtract)</option>
+                            <option value="*">× (Multiply)</option>
+                            <option value="/">÷ (Divide)</option>
+                            <option value="%">% (Percent of)</option>
+                            <option value="^">^ (Power)</option>
+                            <option value="sqrt">√ (Square root)</option>
+                            <option value="discount">Discount (price & %)</option>
+                        </select>
+                        <input type="number" id="calcNum2" placeholder="Second number (if needed)" style="padding: 8px; background: rgba(255,255,255,0.06); border: 1px solid rgba(234, 102, 102, 0.25); border-radius: 5px; color: #fff; font-size: 0.9rem;">
+                        <div style="display:flex; gap:8px;">
+                            <button onclick="simpleCalc()" style="flex:1; padding: 8px; background: linear-gradient(135deg, #ea6666, #c94444); border: none; border-radius: 5px; color: #fff; cursor: pointer; font-weight: 600;">Calculate</button>
+                            <button onclick="document.getElementById('calcNum1').value=''; document.getElementById('calcNum2').value=''; document.getElementById('calcResult').textContent='';" style="padding: 8px; background: rgba(255,255,255,0.06); border:1px solid rgba(234,102,102,0.2); border-radius:5px; color:#fff;">Clear</button>
+                        </div>
+                        <div id="calcResult" style="color: #ea6666; font-weight: 600; text-align: center; font-size: 1.1rem;"></div>
+                    </div>
+                </div>
+
+                <!-- Unit Converter -->
+                <div class="tech-item">
+                    <div class="tech-item-header">
+                        <span class="tech-label">CONVERT</span>
+                        <span class="tech-status">READY</span>
+                    </div>
+                    <h3>Unit Converter</h3>
+                    <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-bottom: 10px;">Convert between metric and imperial units instantly: temperature, distance, weight, and volume.</p>
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
+                        <select id="conversionType" onchange="updateConversion()" style="padding: 8px; background: rgba(255,255,255,0.06); border: 1px solid rgba(234, 102, 102, 0.25); border-radius: 5px; color: #fd8080;">
+                            <option value="c_to_f">°C → °F</option>
+                            <option value="f_to_c">°F → °C</option>
+                            <option value="km_to_mi">km → miles</option>
+                            <option value="mi_to_km">miles → km</option>
+                            <option value="kg_to_lb">kg → lb</option>
+                            <option value="lb_to_kg">lb → kg</option>
+                            <option value="l_to_gal">L → gal</option>
+                            <option value="gal_to_l">gal → L</option>
+                            <option value="mps_to_kph">m/s → km/h</option>
+                            <option value="kph_to_mps">km/h → m/s</option>
+                        </select>
+                        <input type="number" id="inputValue" placeholder="Enter value" onkeyup="updateConversion()" style="padding: 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(234, 102, 102, 0.5); border-radius: 5px; color: #fff; font-size: 0.9rem;">
+                        <div id="conversionResult" style="color: #ea6666; font-weight: 600; text-align: center; font-size: 1.1rem;"></div>
+                    </div>
+                </div>
+
+                <!-- Text Counter -->
+                <div class="tech-item">
+                    <div class="tech-item-header">
+                        <span class="tech-label">TEXT</span>
+                        <span class="tech-status">READY</span>
+                    </div>
+                    <h3>Text Counter</h3>
+                    <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-bottom: 10px;">Count words, characters, sentences, and reading time. Paste or type your text and get instant stats.</p>
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
+                        <textarea id="textInput" placeholder="Paste or type your text here..." style="padding: 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(234, 102, 102, 0.5); border-radius: 5px; color: #fff; font-size: 0.9rem; height: 80px; resize: vertical;"></textarea>
+                        <button onclick="countText()" style="padding: 8px; background: linear-gradient(135deg, #ea6666, #c94444); border: none; border-radius: 5px; color: #fff; cursor: pointer; font-weight: 600;">Count</button>
+                        <div id="textResult" style="color: #ea6666; font-weight: 600; text-align: center; font-size: 0.95rem;"></div>
+                    </div>
+                </div>
+
+                <!-- Currency Converter -->
+                <div class="tech-item">
+                    <div class="tech-item-header">
+                        <span class="tech-label">MONEY</span>
+                        <span class="tech-status">READY</span>
+                    </div>
+                    <h3>Currency Converter</h3>
+                    <p style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.7); margin-bottom: 10px;">Convert between major world currencies. Enter amount and select currencies to convert.</p>
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
+                        <input type="number" id="currencyAmount" placeholder="Amount" style="padding: 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(234, 102, 102, 0.5); border-radius: 5px; color: #fff; font-size: 0.9rem;">
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <select id="fromCurrency" style="flex: 1; padding: 8px; background: rgba(253, 175, 175, 0.08); border: 1px solid rgba(234, 102, 102, 0.25); border-radius: 5px; color: #fd8080; font-size: 0.9rem;">
+                                <option value="USD">USD ($)</option>
+                                <option value="EUR">EUR (€)</option>
+                                <option value="GBP">GBP (£)</option>
+                                <option value="JPY">JPY (¥)</option>
+                                <option value="BDT">BDT (৳)</option>
+                            </select>
+                            <button onclick="swapCurrencies()" title="Swap" style="background: transparent; border: none; color: #ea6666; font-weight:700; font-size: 1.1rem;">⇄</button>
+                            <select id="toCurrency" style="flex: 1; padding: 8px; background: rgba(255,255,255,0.06); border: 1px solid rgba(234, 102, 102, 0.25); border-radius: 5px; color: #fd8080; font-size: 0.9rem;">
+                                <option value="EUR">EUR (€)</option>
+                                <option value="USD">USD ($)</option>
+                                <option value="GBP">GBP (£)</option>
+                                <option value="JPY">JPY (¥)</option>
+                                <option value="BDT">BDT (৳)</option>
+                            </select>
+                        </div>
+                        <div style="display:flex; gap:8px; align-items:center;">
+                            <label style="font-size:0.85rem;color:rgba(255,255,255,0.7);">Custom rate:</label>
+                            <input type="number" id="customRate" placeholder="e.g. 0.84 (from→to)" step="any" style="flex:1; padding:6px; background: rgba(255,255,255,0.04); border:1px solid rgba(234,102,102,0.12); border-radius:5px; color:#fff;">
+                            <input type="checkbox" id="useCustomRate" style="width:16px; height:16px;"> 
+                        </div>
+                        <button onclick="convertCurrency()" style="padding: 8px; background: linear-gradient(135deg, #ea6666, #c94444); border: none; border-radius: 5px; color: #fff; cursor: pointer; font-weight: 600;">Convert</button>
+                        <div id="currencyResult" style="color: #ea6666; font-weight: 600; text-align: center; font-size: 1.1rem;"></div>
+                    </div>
+                </div>
+
+                <!-- Password Generator -->
+                <div class="tech-item">
+                    <div class="tech-item-header">
+                        <span class="tech-label">PASSWORD</span>
+                        <span class="tech-status">READY</span>
+                    </div>
+                    <h3>Password Generator</h3>
+                    <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-bottom: 10px;">Create strong passwords. Choose length and character types, then generate and copy.</p>
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
+                        <input type="number" id="pwLength" placeholder="Length (8-64)" value="16" min="4" max="64" style="padding: 8px; background: rgba(255,255,255,0.06); border: 1px solid rgba(234, 102, 102, 0.25); border-radius: 5px; color: #fff; font-size: 0.9rem;">
+                        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                            <label style="font-size:0.85rem;color:rgba(255,255,255,0.8);"><input type="checkbox" id="pwLower" checked> lower</label>
+                            <label style="font-size:0.85rem;color:rgba(255,255,255,0.8);"><input type="checkbox" id="pwUpper" checked> UPPER</label>
+                            <label style="font-size:0.85rem;color:rgba(255,255,255,0.8);"><input type="checkbox" id="pwNumbers" checked> 123</label>
+                            <label style="font-size:0.85rem;color:rgba(255,255,255,0.8);"><input type="checkbox" id="pwSymbols" checked> !@#</label>
+                        </div>
+                        <div style="display:flex; gap:8px;">
+                            <button onclick="generatePassword()" style="flex:1; padding: 8px; background: linear-gradient(135deg, #ea6666, #c94444); border: none; border-radius: 5px; color: #fff; cursor: pointer; font-weight: 600;">Generate</button>
+                            <button onclick="navigator.clipboard.writeText(document.getElementById('pwOutput').value)" style="padding: 8px; background: rgba(255,255,255,0.06); border:1px solid rgba(234,102,102,0.12); border-radius:5px; color:#fff;">Copy</button>
+                        </div>
+                        <input type="text" id="pwOutput" readonly placeholder="Generated password" style="padding: 8px; background: rgba(255,255,255,0.03); border: 1px solid rgba(234, 102, 102, 0.12); border-radius: 5px; color: #fff; font-size: 0.9rem;">
+                    </div>
+                </div>
+
+                <!-- Countdown Timer (enhanced) -->
+                <div class="tech-item">
+                    <div class="tech-item-header">
+                        <span class="tech-label">TIME</span>
+                        <span class="tech-status">READY</span>
+                    </div>
+                    <h3>Countdown Timer</h3>
+                    <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-bottom: 10px;">Set a countdown timer for workouts, studying, cooking, or any task. Pause, resume, reset, and watch progress.</p>
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
+                        <div style="display:flex; gap:8px;">
+                            <input type="number" id="minutes" placeholder="Minutes" value="1" max="600" style="flex:1; padding: 8px; background: rgba(255,255,255,0.06); border: 1px solid rgba(234, 102, 102, 0.25); border-radius: 5px; color: #fff; font-size: 0.9rem;">
+                            <input type="number" id="seconds" placeholder="Seconds" value="0" max="59" style="flex:1; padding: 8px; background: rgba(255,255,255,0.06); border: 1px solid rgba(234, 102, 102, 0.25); border-radius: 5px; color: #fff; font-size: 0.9rem;">
+                        </div>
+                        <div style="display:flex; gap:8px;">
+                            <button id="startBtn" onclick="startTimer()" style="flex:1; padding: 8px; background: linear-gradient(135deg, #ea6666, #c94444); border: none; border-radius: 5px; color: #fff; cursor: pointer; font-weight: 600;">Start</button>
+                            <button id="pauseBtn" onclick="pauseTimer()" style="padding: 8px; background: rgba(255,255,255,0.06); border:1px solid rgba(234,102,102,0.12); border-radius:5px; color:#fff;">Pause</button>
+                            <button id="resumeBtn" onclick="resumeTimer()" style="padding: 8px; background: rgba(255,255,255,0.06); border:1px solid rgba(234,102,102,0.12); border-radius:5px; color:#fff;">Resume</button>
+                            <button id="resetBtn" onclick="resetTimer()" style="padding: 8px; background: rgba(255,255,255,0.06); border:1px solid rgba(234,102,102,0.12); border-radius:5px; color:#fff;">Reset</button>
+                        </div>
+                        <div id="timerDisplay" style="color: #ea6666; font-weight: 600; text-align: center; font-size: 1.3rem;">00:00</div>
+                        <div style="background: rgba(255,255,255,0.06); height:8px; border-radius:8px; overflow:hidden;">
+                            <div id="timerProgress" style="height:100%; width:0%; background: linear-gradient(90deg,#ea6666,#c94444);"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stats Section -->
+    <section class="tech-stats-section">
+        <div class="stats-wrapper">
+            <div class="stat-card">
+                <div class="stat-number">6+</div>
+                <div class="stat-label">Useful Tools</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Completely Free</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0 Ads</div>
+                <div class="stat-label">No Tracking</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Always Available</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Articles Section -->
+    <section class="articles-section" id="articles">
+        <div class="articles-container">
+            <h2 class="articles-title">[ ] Mathematics & History</h2>
+            <p class="articles-subtitle">Explore fascinating articles about mathematics and its rich history</p>
+            
+            <div class="articles-grid">
+                <!-- Article 1 -->
+                <div class="article-card" onclick="openArticle(1)">
+                    <div class="article-header">
+                        <span class="article-badge">HISTORY</span>
+                        <span class="article-date">Ancient Times</span>
+                    </div>
+                    <h3>The Origins of Mathematics</h3>
+                    <p>Discover how mathematics began with ancient civilizations and basic counting systems.</p>
+                    <div class="article-footer">
+                        <span class="read-time">5 min read</span>
+                        <span class="expand-icon">→</span>
+                    </div>
+                </div>
+
+                <!-- Article 2 -->
+                <div class="article-card" onclick="openArticle(2)">
+                    <div class="article-header">
+                        <span class="article-badge">GREEK</span>
+                        <span class="article-date">300 BC</span>
+                    </div>
+                    <h3>Euclid & Euclidean Geometry</h3>
+                    <p>Learn about the father of geometry and how he revolutionized mathematical thinking.</p>
+                    <div class="article-footer">
+                        <span class="read-time">6 min read</span>
+                        <span class="expand-icon">→</span>
+                    </div>
+                </div>
+
+                <!-- Article 3 -->
+                <div class="article-card" onclick="openArticle(3)">
+                    <div class="article-header">
+                        <span class="article-badge">ALGEBRA</span>
+                        <span class="article-date">800 AD</span>
+                    </div>
+                    <h3>The Birth of Algebra</h3>
+                    <p>Explore how Persian mathematician Al-Khwarizmi invented algebra and changed mathematics forever.</p>
+                    <div class="article-footer">
+                        <span class="read-time">7 min read</span>
+                        <span class="expand-icon">→</span>
+                    </div>
+                </div>
+
+                <!-- Article 4 -->
+                <div class="article-card" onclick="openArticle(4)">
+                    <div class="article-header">
+                        <span class="article-badge">FIBONACCI</span>
+                        <span class="article-date">1202 AD</span>
+                    </div>
+                    <h3>Fibonacci Sequence & Nature</h3>
+                    <p>Uncover the mysterious Fibonacci sequence and its appearance in nature and art.</p>
+                    <div class="article-footer">
+                        <span class="read-time">8 min read</span>
+                        <span class="expand-icon">→</span>
+                    </div>
+                </div>
+
+                <!-- Article 5 -->
+                <div class="article-card" onclick="openArticle(5)">
+                    <div class="article-header">
+                        <span class="article-badge">CALCULUS</span>
+                        <span class="article-date">1665</span>
+                    </div>
+                    <h3>Newton & Leibniz: Inventing Calculus</h3>
+                    <p>The story of how calculus was invented independently by two mathematical geniuses.</p>
+                    <div class="article-footer">
+                        <span class="read-time">10 min read</span>
+                        <span class="expand-icon">→</span>
+                    </div>
+                </div>
+
+                <!-- Article 6 -->
+                <div class="article-card" onclick="openArticle(6)">
+                    <div class="article-header">
+                        <span class="article-badge">PROBABILITY</span>
+                        <span class="article-date">1654</span>
+                    </div>
+                    <h3>Pascal & Fermat: Birth of Probability</h3>
+                    <p>How two mathematicians created probability theory while solving gambling problems.</p>
+                    <div class="article-footer">
+                        <span class="read-time">7 min read</span>
+                        <span class="expand-icon">→</span>
+                    </div>
+                </div>
+
+                <!-- Article 7 -->
+                <div class="article-card" onclick="openArticle(7)">
+                    <div class="article-header">
+                        <span class="article-badge">GEOMETRY</span>
+                        <span class="article-date">1800s</span>
+                    </div>
+                    <h3>Non-Euclidean Geometry Revolution</h3>
+                    <p>Discover how mathematicians challenged Euclid's postulates and created new geometries.</p>
+                    <div class="article-footer">
+                        <span class="read-time">9 min read</span>
+                        <span class="expand-icon">→</span>
+                    </div>
+                </div>
+
+                <!-- Article 8 -->
+                <div class="article-card" onclick="openArticle(8)">
+                    <div class="article-header">
+                        <span class="article-badge">PRIME NUMBERS</span>
+                        <span class="article-date">Ancient</span>
+                    </div>
+                    <h3>The Mystery of Prime Numbers</h3>
+                    <p>Explore the unsolved mysteries and patterns of prime numbers throughout history.</p>
+                    <div class="article-footer">
+                        <span class="read-time">8 min read</span>
+                        <span class="expand-icon">→</span>
+                    </div>
+                </div>
+
+                <!-- Article 9 -->
+                <div class="article-card" onclick="openArticle(9)">
+                    <div class="article-header">
+                        <span class="article-badge">MODERN</span>
+                        <span class="article-date">1900s</span>
+                    </div>
+                    <h3>20th Century: Mathematics Explosion</h3>
+                    <p>How mathematics expanded into new fields like topology, set theory, and abstract algebra.</p>
+                    <div class="article-footer">
+                        <span class="read-time">10 min read</span>
+                        <span class="expand-icon">→</span>
+                    </div>
+                </div>
+
+                <!-- Article 10 -->
+                <div class="article-card" onclick="openArticle(10)">
+                    <div class="article-header">
+                        <span class="article-badge">AI</span>
+                        <span class="article-date">2020s</span>
+                    </div>
+                    <h3>Mathematics in AI & Machine Learning</h3>
+                    <p>How ancient and modern mathematics power today's artificial intelligence revolution.</p>
+                    <div class="article-footer">
+                        <span class="read-time">9 min read</span>
+                        <span class="expand-icon">→</span>
+                    </div>
+                </div>
+
+                <!-- Article 11 -->
+                <div class="article-card" onclick="openArticle(11)">
+                    <div class="article-header">
+                        <span class="article-badge">CRYPTOGRAPHY</span>
+                        <span class="article-date">Modern</span>
+                    </div>
+                    <h3>Mathematics of Cryptography</h3>
+                    <p>How mathematical principles protect our digital privacy and secure our communications.</p>
+                    <div class="article-footer">
+                        <span class="read-time">8 min read</span>
+                        <span class="expand-icon">→</span>
+                    </div>
+                </div>
+
+                <!-- Article 12 -->
+                <div class="article-card" onclick="openArticle(12)">
+                    <div class="article-header">
+                        <span class="article-badge">PHILOSOPHY</span>
+                        <span class="article-date">Timeless</span>
+                    </div>
+                    <h3>The Philosophy of Mathematics</h3>
+                    <p>Is mathematics discovered or invented? Explore the philosophical depths of mathematics.</p>
+                    <div class="article-footer">
+                        <span class="read-time">11 min read</span>
+                        <span class="expand-icon">→</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal for Articles -->
+    <div id="articleModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeArticle()">&times;</span>
+            <div id="articleBody"></div>
+        </div>
+    </div>
+
+    <!-- Decorative Floating Elements -->
+    <div id="decorativeContainer"></div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; Useful Tools. | Simple, free tools for everyday life.</p>
+    </footer>
+
+    <script>
+        // --- Calculator ---
+        function simpleCalc() {
+            const n1 = parseFloat(document.getElementById('calcNum1').value);
+            const n2 = parseFloat(document.getElementById('calcNum2').value);
+            const op = document.getElementById('calcOperation').value;
+            const out = document.getElementById('calcResult');
+
+            if (op === 'sqrt') {
+                if (isNaN(n1)) { out.textContent = 'Enter a number for √'; return; }
+                out.textContent = `√${n1} = ${Math.sqrt(n1).toFixed(6)}`;
+                return;
+            }
+
+            if (isNaN(n1) || isNaN(n2)) { out.textContent = 'Please enter two numbers (unless using √)'; return; }
+
+            let res;
+            switch(op) {
+                case '+': res = n1 + n2; break;
+                case '-': res = n1 - n2; break;
+                case '*': res = n1 * n2; break;
+                case '/': if (n2 === 0) { out.textContent = 'Cannot divide by zero'; return;} res = n1 / n2; break;
+                case '%': // n1 % of n2 -> (n1/100)*n2
+                    res = (n1/100) * n2; out.textContent = `${n1}% of ${n2} = ${res.toFixed(6)}`; return;
+                case '^': res = Math.pow(n1, n2); break;
+                case 'discount': // n1 = price, n2 = percent
+                    if (n2 < 0 || n2 > 100) { out.textContent = 'Discount % must be 0-100'; return; }
+                    const savings = n1 * (n2/100);
+                    const finalPrice = n1 - savings;
+                    out.innerHTML = `Original: $${n1.toFixed(2)}<br>Discount: -$${savings.toFixed(2)} | Final: $${finalPrice.toFixed(2)}`;
+                    return;
+                default: out.textContent = 'Operation not supported'; return;
+            }
+
+            out.textContent = `${n1} ${op} ${n2} = ${Number(res.toFixed(6))}`;
+        }
+
+        // --- Unit Converter ---
+        function updateConversion() {
+            const type = document.getElementById('conversionType').value;
+            const v = parseFloat(document.getElementById('inputValue').value);
+            const r = document.getElementById('conversionResult');
+            if (isNaN(v)) { r.textContent = ''; return; }
+
+            let out;
+            switch(type) {
+                case 'c_to_f': out = (v * 9/5) + 32; r.textContent = `${v} °C = ${out.toFixed(2)} °F`; break;
+                case 'f_to_c': out = (v - 32) * 5/9; r.textContent = `${v} °F = ${out.toFixed(2)} °C`; break;
+                case 'km_to_mi': out = v * 0.621371; r.textContent = `${v} km = ${out.toFixed(4)} miles`; break;
+                case 'mi_to_km': out = v / 0.621371; r.textContent = `${v} miles = ${out.toFixed(4)} km`; break;
+                case 'kg_to_lb': out = v * 2.20462262; r.textContent = `${v} kg = ${out.toFixed(4)} lb`; break;
+                case 'lb_to_kg': out = v / 2.20462262; r.textContent = `${v} lb = ${out.toFixed(4)} kg`; break;
+                case 'l_to_gal': out = v * 0.264172052; r.textContent = `${v} L = ${out.toFixed(4)} gal`; break;
+                case 'gal_to_l': out = v / 0.264172052; r.textContent = `${v} gal = ${out.toFixed(4)} L`; break;
+                case 'mps_to_kph': out = v * 3.6; r.textContent = `${v} m/s = ${out.toFixed(2)} km/h`; break;
+                case 'kph_to_mps': out = v / 3.6; r.textContent = `${v} km/h = ${out.toFixed(2)} m/s`; break;
+                default: r.textContent = '';
+            }
+        }
+
+        // --- Text Counter (enhanced) ---
+        function countText() {
+            const text = document.getElementById('textInput').value || '';
+            const out = document.getElementById('textResult');
+            if (!text.trim()) { out.textContent = 'Please enter some text'; return; }
+
+            const chars = text.length;
+            const charsNoSpace = text.replace(/\s/g,'').length;
+            const wordsArr = text.trim().split(/\s+/).filter(w=>w);
+            const words = wordsArr.length;
+            const sentences = text.split(/[.!?]+/).filter(s=>s.trim()).length;
+            const readingMins = Math.max(1, Math.ceil(words / 200));
+            const avgWordLen = (wordsArr.reduce((s,w)=>s+w.length,0)/Math.max(1,words)).toFixed(2);
+
+            // top words
+            const freq = {};
+            wordsArr.map(w=>w.toLowerCase().replace(/[^a-z0-9']/g,'')).forEach(w=>{ if(!w) return; freq[w]=(freq[w]||0)+1; });
+            const top = Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,5).map(e=>`${e[0]}(${e[1]})`).join(', ') || '-';
+
+            out.innerHTML = `Words: ${words} | Characters: ${chars} (${charsNoSpace} no spaces)<br>Sentences: ${sentences} | Reading time: ~${readingMins} min<br>Avg word length: ${avgWordLen} | Top: ${top}`;
+        }
+
+        // --- Currency Converter (rates + custom rate + swap) ---
+        function swapCurrencies() {
+            const a = document.getElementById('fromCurrency');
+            const b = document.getElementById('toCurrency');
+            const tmp = a.value; a.value = b.value; b.value = tmp;
+        }
+
+        function convertCurrency() {
+            const amount = parseFloat(document.getElementById('currencyAmount').value);
+            const from = document.getElementById('fromCurrency').value;
+            const to = document.getElementById('toCurrency').value;
+            const useCustom = document.getElementById('useCustomRate').checked;
+            const custom = parseFloat(document.getElementById('customRate').value);
+            const out = document.getElementById('currencyResult');
+            if (isNaN(amount) || amount <= 0) { out.textContent = 'Please enter a valid amount'; return; }
+
+            const rates = { 'USD':1.10, 'EUR':1.00, 'GBP':0.87, 'JPY':160.50, 'BDT':114.35 };
+
+            if (useCustom && !isNaN(custom) && custom > 0) {
+                // custom is interpreted as multiplier from "from" -> "to"
+                const converted = amount * custom;
+                out.textContent = `${amount.toFixed(2)} ${from} = ${converted.toFixed(2)} ${to} (custom rate)`;
+                return;
+            }
+
+            if (!(from in rates) || !(to in rates)) { out.textContent = 'Currency not supported'; return; }
+            const inEur = amount / rates[from];
+            const converted = inEur * rates[to];
+            out.textContent = `${amount.toFixed(2)} ${from} = ${converted.toFixed(2)} ${to}`;
+        }
+
+        // --- Password Generator ---
+        function generatePassword() {
+            const length = parseInt(document.getElementById('pwLength').value) || 16;
+            const useLower = document.getElementById('pwLower').checked;
+            const useUpper = document.getElementById('pwUpper').checked;
+            const useNum = document.getElementById('pwNumbers').checked;
+            const useSym = document.getElementById('pwSymbols').checked;
+            const out = document.getElementById('pwOutput');
+            let pool = '';
+            if (useLower) pool += 'abcdefghijklmnopqrstuvwxyz';
+            if (useUpper) pool += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            if (useNum) pool += '0123456789';
+            if (useSym) pool += '!@#$%^&*()-_=+[]{};:,.<>?';
+            if (!pool) { out.value = ''; alert('Select at least one character set'); return; }
+
+            let pw = '';
+            for (let i=0;i<length;i++) pw += pool[Math.floor(Math.random()*pool.length)];
+            out.value = pw;
+        }
+
+        // --- Countdown Timer (enhanced) ---
+        let timerInterval = null;
+        let totalSeconds = 0;
+        let remaining = 0;
+        let paused = false;
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            const m = parseInt(document.getElementById('minutes').value) || 0;
+            const s = parseInt(document.getElementById('seconds').value) || 0;
+            totalSeconds = m*60 + s;
+            if (totalSeconds <= 0) { alert('Please enter a valid time'); return; }
+            remaining = totalSeconds; paused = false;
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('pauseBtn').disabled = false;
+            document.getElementById('resumeBtn').disabled = true;
+
+            timerInterval = setInterval(()=>{
+                if (!paused) {
+                    remaining--;
+                    updateTimerDisplay();
+                    updateProgress();
+                }
+                if (remaining <= 0) { clearInterval(timerInterval); document.getElementById('startBtn').disabled = false; alert('Timer finished!'); }
+            },1000);
+            updateTimerDisplay(); updateProgress();
+        }
+
+        function pauseTimer() { if (timerInterval) { paused = true; document.getElementById('pauseBtn').disabled = true; document.getElementById('resumeBtn').disabled = false; } }
+        function resumeTimer() { if (timerInterval) { paused = false; document.getElementById('pauseBtn').disabled = false; document.getElementById('resumeBtn').disabled = true; } }
+        function resetTimer() { clearInterval(timerInterval); remaining = totalSeconds; paused = false; updateTimerDisplay(); updateProgress(); document.getElementById('startBtn').disabled = false; document.getElementById('pauseBtn').disabled = false; document.getElementById('resumeBtn').disabled = true; }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(Math.max(0,remaining)/60);
+            const secs = Math.floor(Math.max(0,remaining)%60);
+            document.getElementById('timerDisplay').textContent = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+        }
+
+        function updateProgress() {
+            const pct = totalSeconds ? Math.max(0, (1 - remaining/totalSeconds) * 100) : 0;
+            document.getElementById('timerProgress').style.width = `${pct}%`;
+        }
+
+        // --- Articles Modal ---
+        const articles = {
+            1: {
+                title: "The Origins of Mathematics",
+                badge: "HISTORY",
+                content: `
+                    <h2>The Origins of Mathematics ✦</h2>
+                    <p>Mathematics didn't start in a classroom or with written symbols. It began with the simplest human need: counting. Ancient civilizations like the Babylonians, Egyptians, and Harappans developed early number systems thousands of years before modern mathematics emerged.</p>
+                    <h3>Early Counting Systems</h3>
+                    <p>The earliest evidence of mathematical thinking comes from tally marks on bones and stones dating back to 35,000 years ago. These marks likely represented counts of animals, days, or possessions.</p>
+                    <h3>Babylonian Mathematics (1900-1600 BC)</h3>
+                    <p>The Babylonians were among the first to develop a sophisticated number system using clay tablets. They used a base-60 system (sexagesimal), which we still use today for measuring time and angles.</p>
+                    <h3>Egyptian Mathematics</h3>
+                    <p>Egyptian mathematics was primarily practical, used for building pyramids, managing the Nile's floods, and conducting trade. They developed a base-10 system and created the first fraction systems.</p>
+                    <button class="interactive-btn" onclick="showFact('The Rhind Mathematical Papyrus (1650 BC) is one of the oldest mathematical texts still in existence!')">✵ Interesting Fact</button>
+                `
+            },
+            2: {
+                title: "Euclid & Euclidean Geometry",
+                badge: "GREEK",
+                content: `
+                    <h2>Euclid & Euclidean Geometry ✰</h2>
+                    <p>Euclid of Alexandria (c. 300 BC) was one of history's most influential mathematicians. His 13-volume work, "Elements," became the foundation of geometry and was the most widely used textbook for over 2,000 years!</p>
+                    <h3>Who Was Euclid?</h3>
+                    <p>Little is known about Euclid's life, but his legacy is enormous. He taught at the Library of Alexandria and systematized all geometric knowledge known to the Greeks.</p>
+                    <h3>The Five Postulates</h3>
+                    <p>Euclid based his geometry on five simple postulates:<br>1. A straight line can be drawn between any two points<br>2. A line can be extended infinitely<br>3. A circle can be drawn with any center and radius<br>4. All right angles are equal<br>5. The parallel postulate</p>
+                    <h3>Why It Mattered</h3>
+                    <p>Euclid's approach - starting with simple axioms and building complex theorems - became the model for mathematical reasoning. His geometry remained unchallenged until the 1800s.</p>
+                    <button class="interactive-btn" onclick="showFact('Euclid\\'s Elements is the second-most published book after the Bible!')">✷ Did You Know?</button>
+                `
+            },
+            3: {
+                title: "The Birth of Algebra",
+                badge: "ALGEBRA",
+                content: `
+                    <h2>The Birth of Algebra ✭</h2>
+                    <p>The word "algebra" comes from the Arabic word "al-jabr," meaning "reunion of broken parts." This term was coined by the Persian mathematician Muhammad ibn Musa al-Khwarizmi around 820 AD.</p>
+                    <h3>Al-Khwarizmi's Revolution</h3>
+                    <p>Al-Khwarizmi wrote a revolutionary book titled "Kitab al-Mukhtasar fi Hisab al-Jabr wal-Muqabala" (The Compendious Book on Calculation by Completion and Balancing). This introduced systematic methods for solving equations.</p>
+                    <h3>From Ancient Problem-Solving to Algebra</h3>
+                    <p>While ancient civilizations could solve simple equations, al-Khwarizmi was the first to create a general theory. His methods could solve various types of equations using simple algebraic rules.</p>
+                    <h3>The Algorithm Connection</h3>
+                    <p>The word "algorithm" itself comes from the Latinization of al-Khwarizmi's name! Every time you use an algorithm, you're using a term that traces back to this brilliant mathematician.</p>
+                    <h3>Islamic Golden Age</h3>
+                    <p>The Islamic Golden Age (8th-14th century) was a period of unprecedented mathematical progress. Scholars from Baghdad to al-Andalus advanced mathematics, astronomy, and philosophy.</p>
+                    <button class="interactive-btn" onclick="showFact('Al-Khwarizmi is considered the father of algebra AND algorithms!')">✧ Amazing Fact</button>
+                `
+            },
+            4: {
+                title: "Fibonacci Sequence & Nature",
+                badge: "FIBONACCI",
+                content: `
+                    <h2>Fibonacci Sequence & Nature ✸</h2>
+                    <p>The Fibonacci sequence is one of the most beautiful mathematical patterns found in nature. It goes: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144...</p>
+                    <h3>Leonardo of Pisa</h3>
+                    <p>Leonardo Fibonacci (also known as Leonardo of Pisa) introduced this sequence in his 1202 book "Liber Abaci" through a problem about rabbit breeding.</p>
+                    <h3>The Famous Rabbit Problem</h3>
+                    <p>Suppose you have a pair of rabbits. Each month, each mature pair produces a new pair. How many pairs will you have after n months?</p>
+                    <button class="interactive-btn" onclick="showFibonacci()">✡ Calculate Fibonacci Numbers</button>
+                    <h3>Fibonacci in Nature</h3>
+                    <p>The Fibonacci sequence appears everywhere:<br>• Sunflower seed spirals follow Fibonacci patterns<br>• Pinecones and pineapples show Fibonacci spirals<br>• Flower petals: lilies (3), buttercups (5), daisies (often 34 or 55)<br>• Tree branching patterns<br>• Hurricane spiral arms</p>
+                    <h3>The Golden Ratio</h3>
+                    <p>As Fibonacci numbers get larger, the ratio between consecutive numbers approaches the Golden Ratio (φ = 1.618...), considered the most aesthetically pleasing proportion in art and nature.</p>
+                    <button class="interactive-btn" onclick="showFact('The Parthenon, Mona Lisa, and many faces have golden ratio proportions!')">✮ Art Connection</button>
+                `
+            },
+            5: {
+                title: "Newton & Leibniz: Inventing Calculus",
+                badge: "CALCULUS",
+                content: `
+                    <h2>Newton & Leibniz: Inventing Calculus ❂</h2>
+                    <p>Calculus is one of humanity's greatest intellectual achievements. Two brilliant minds, Isaac Newton and Gottfried Leibniz, independently invented it in the late 17th century, sparking a bitter priority dispute that lasted for decades.</p>
+                    <h3>Isaac Newton (1642-1727)</h3>
+                    <p>During the Great Plague of 1665-1666, Cambridge University closed, and Newton returned to his family home. In this single year, often called his "year of wonders," he made revolutionary discoveries in optics, mathematics, and gravity.</p>
+                    <h3>Gottfried Leibniz (1646-1716)</h3>
+                    <p>Leibniz, a German polymath, developed calculus independently while pursuing diplomatic and philosophical work. His notation for derivatives (d) and integrals (∫) is what we still use today.</p>
+                    <h3>The Historic Rivalry</h3>
+                    <p>Newton completed his work first but published later. Leibniz published first, leading to accusations of plagiarism. This bitter dispute divided the mathematical world for over a century and slowed British mathematics' progress.</p>
+                    <h3>What is Calculus?</h3>
+                    <p>Calculus has two main branches:<br>• Differential Calculus: studying rates of change (derivatives)<br>• Integral Calculus: finding areas and accumulations (integrals)</p>
+                    <button class="interactive-btn" onclick="calculateDerivative()">[=] Calculate a Simple Derivative</button>
+                    <h3>Impact on Science</h3>
+                    <p>Calculus enabled the mathematical description of motion, gravity, and change itself. Without calculus, there would be no modern physics, engineering, or space exploration.</p>
+                `
+            },
+            6: {
+                title: "Pascal & Fermat: Birth of Probability",
+                badge: "PROBABILITY",
+                content: `
+                    <h2>Pascal & Fermat: Birth of Probability ✵</h2>
+                    <p>In 1654, Blaise Pascal and Pierre de Fermat exchanged letters about a gambling problem. Their correspondence led to the creation of probability theory, one of mathematics' most important branches.</p>
+                    <h3>The Problem of Points</h3>
+                    <p>A game of chance is interrupted. How should the stakes be divided based on the probability of each player winning from that point?</p>
+                    <p>This seemingly simple question led to revolutionary thinking about randomness and uncertainty.</p>
+                    <h3>Blaise Pascal (1623-1662)</h3>
+                    <p>French mathematician, physicist, and philosopher. His triangle (Pascal's Triangle) shows the binomial coefficients and contains beautiful patterns related to probability.</p>
+                    <h3>Pierre de Fermat (1607-1665)</h3>
+                    <p>A lawyer and amateur mathematician, Fermat made groundbreaking discoveries in number theory and calculus. He famously claimed to have proved his "Last Theorem" but left no proof (solved 358 years later!).</p>
+                    <h3>Pascal's Triangle</h3>
+                    <p>Each number is the sum of the two numbers above it. This triangle contains patterns related to combinations, probabilities, and many mathematical sequences.</p>
+                    <button class="interactive-btn" onclick="generatePascalsTriangle()">[A] Generate Pascal's Triangle</button>
+                    <h3>Modern Impact</h3>
+                    <p>Probability theory is now essential in statistics, finance, insurance, and quantum physics. It helps us understand everything from weather forecasting to genetic inheritance.</p>
+                    <button class="interactive-btn" onclick="showFact('Pascal\\'s Triangle appears in nature, Pascal invented the calculator, and proved mathematical theorems by candlelight!')">✰ Remarkable Facts</button>
+                `
+            },
+            7: {
+                title: "Non-Euclidean Geometry Revolution",
+                badge: "GEOMETRY",
+                content: `
+                    <h2>Non-Euclidean Geometry Revolution ✷</h2>
+                    <p>For over 2,000 years, mathematicians tried to prove Euclid's fifth postulate. They failed. In the early 1800s, mathematicians realized that other geometries were possible, revolutionizing mathematics.</p>
+                    <h3>Euclid's Fifth Postulate</h3>
+                    <p>The controversial postulate: "If a line intersects two other lines, and the interior angles on one side sum to less than 180°, then those two lines will intersect on that side."</p>
+                    <h3>The Failed Proof</h3>
+                    <p>Countless mathematicians attempted to derive the fifth postulate from the other four. All failed. By the 1800s, some began wondering: what if the fifth postulate is actually independent?</p>
+                    <h3>Lobachevsky, Bolyai, and Gauss</h3>
+                    <p>Independently, Nikolai Lobachevsky, János Bolyai, and Carl Friedrich Gauss developed hyperbolic geometry, where the parallel postulate doesn't hold.</p>
+                    <h3>Hyperbolic Geometry</h3>
+                    <p>In hyperbolic geometry:<br>• There are infinitely many parallel lines through a point<br>• Triangle angles sum to less than 180°<br>• The space has constant negative curvature (like a saddle)</p>
+                    <h3>Spherical Geometry</h3>
+                    <p>On a sphere:<br>• There are no parallel lines (all great circles intersect)<br>• Triangle angles sum to more than 180°<br>• Shortest paths curve (like flight routes)</p>
+                    <button class="interactive-btn" onclick="showFact('These geometries are not just abstract - spherical geometry describes Earth, and hyperbolic geometry describes spacetime!')">✭ Real-World Connection</button>
+                    <h3>Impact on Physics</h3>
+                    <p>Einstein used non-Euclidean geometry to describe spacetime in General Relativity. The curvature of spacetime is what we experience as gravity!</p>
+                `
+            },
+            8: {
+                title: "The Mystery of Prime Numbers",
+                badge: "PRIME NUMBERS",
+                content: `
+                    <h2>The Mystery of Prime Numbers ✧</h2>
+                    <p>Prime numbers are the atoms of mathematics. Every integer greater than 1 is either prime or can be uniquely factored into primes. Yet after thousands of years, primes remain mysterious.</p>
+                    <h3>What Are Prime Numbers?</h3>
+                    <p>A prime number is a natural number greater than 1 that has no positive divisors other than 1 and itself. The first primes are: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29...</p>
+                    <h3>Infinite Primes</h3>
+                    <p>Euclid proved around 300 BC that there are infinitely many primes. Yet they seem to become rarer as numbers get larger.</p>
+                    <button class="interactive-btn" onclick="checkPrime()">[!] Check if a Number is Prime</button>
+                    <h3>The Prime Number Theorem</h3>
+                    <p>The number of primes less than n is approximately n/ln(n). This pattern was conjectured for decades and finally proved in 1896.</p>
+                    <h3>Unsolved Mysteries</h3>
+                    <p>• The Riemann Hypothesis: About the distribution of primes (unsolved for 160+ years)<br>• Goldbach's Conjecture: Every even number > 2 is the sum of two primes<br>• Twin Prime Conjecture: Are there infinitely many prime pairs like (11,13)?</p>
+                    <h3>Modern Importance</h3>
+                    <p>Prime numbers are crucial for:<br>• Cryptography and internet security<br>• Public key encryption (RSA)<br>• Digital signatures and authentication<br>• Your bank account security depends on primes!</p>
+                    <button class="interactive-btn" onclick="showFact('The largest known prime has over 24 million digits!')">✸ Mind-Blowing Fact</button>
+                `
+            },
+            9: {
+                title: "20th Century: Mathematics Explosion",
+                badge: "MODERN",
+                content: `
+                    <h2>20th Century: Mathematics Explosion ✡</h2>
+                    <p>The 20th century was the most revolutionary period in mathematical history. New branches emerged, old ones were revolutionized, and mathematics became more abstract and powerful than ever before.</p>
+                    <h3>Set Theory & Foundations</h3>
+                    <p>Georg Cantor's set theory fundamentally changed how we think about infinity and mathematical foundations. His work on infinite sets revealed mind-bending paradoxes.</p>
+                    <h3>Topology</h3>
+                    <p>A branch of mathematics studying properties preserved under continuous deformations. Donuts are equivalent to coffee cups in topology because one can be continuously deformed into the other!</p>
+                    <h3>Abstract Algebra</h3>
+                    <p>Groups, rings, fields, and other algebraic structures were formalized. This allows mathematicians to study any system with similar properties, providing universal insights.</p>
+                    <h3>Functional Analysis</h3>
+                    <p>A generalization of algebra to infinite-dimensional spaces. Essential for modern physics and quantum mechanics.</p>
+                    <h3>Mathematical Logic</h3>
+                    <p>Gödel's Incompleteness Theorems proved that no consistent formal system can prove all truths about itself. This shook the foundations of mathematics.</p>
+                    <h3>Measure Theory</h3>
+                    <p>Lebesgue's measure theory generalized integration, making calculus more powerful and rigorous.</p>
+                    <button class="interactive-btn" onclick="showFact('In 1931, Gödel proved that any mathematical system powerful enough to describe itself contains unprovable truths!')">✮ Gödel's Insight</button>
+                    <h3>Impact on Science & Technology</h3>
+                    <p>These abstract mathematics provided the language for Einstein's relativity, quantum mechanics, and eventually modern computing and AI.</p>
+                `
+            },
+            10: {
+                title: "Mathematics in AI & Machine Learning",
+                badge: "AI",
+                content: `
+                    <h2>Mathematics in AI & Machine Learning ✵</h2>
+                    <p>Modern artificial intelligence is built entirely on mathematics. From neural networks to language models, virtually every aspect of AI is rooted in centuries of mathematical development.</p>
+                    <h3>Linear Algebra</h3>
+                    <p>The foundation of AI! Vectors and matrices represent data, weights, and transformations. Every neural network operation is linear algebra.</p>
+                    <button class="interactive-btn" onclick="matrixMultiply()">** Interactive Matrix Multiplication</button>
+                    <h3>Calculus & Optimization</h3>
+                    <p>Gradient descent, the algorithm that trains neural networks, is pure calculus. It uses derivatives to find the direction to minimize error.</p>
+                    <h3>Probability & Statistics</h3>
+                    <p>Bayesian statistics, probability distributions, and uncertainty quantification are essential to AI. Machine learning is fundamentally about finding patterns in probabilistic data.</p>
+                    <h3>Graph Theory</h3>
+                    <p>Neural networks are graphs. Graph neural networks apply to social networks, molecules, and any relational data.</p>
+                    <h3>Information Theory</h3>
+                    <p>Shannon's information theory measures uncertainty and communication. Entropy concepts guide how AI systems compress and process information.</p>
+                    <h3>Fourier Analysis</h3>
+                    <p>Fundamental to image and signal processing. Computer vision and audio AI rely heavily on Fourier analysis.</p>
+                    <h3>Modern AI Achievements</h3>
+                    <p>• ChatGPT: Uses transformers (based on matrix operations and attention mechanisms)<br>• Image Generation (DALL-E): Uses diffusion models (rooted in probability)<br>• AlphaGo: Used game theory and deep neural networks<br>• Protein Folding (AlphaFold): Applied optimization and neural networks</p>
+                    <button class="interactive-btn" onclick="showFact('GPT models have billions of parameters. Training involves billions of matrix multiplications using calculus!')">✰ Mind-Blowing Scale</button>
+                    <h3>The Future</h3>
+                    <p>New mathematical frameworks are being developed for AI trustworthiness, explainability, and efficiency. Quantum mathematics may revolutionize AI once quantum computers mature.</p>
+                `
+            },
+            11: {
+                title: "Mathematics of Cryptography",
+                badge: "CRYPTOGRAPHY",
+                content: `
+                    <h2>Mathematics of Cryptography ✷</h2>
+                    <p>Cryptography is pure applied mathematics. Every secure communication, online transaction, and protected secret relies on mathematical problems that are easy to encode but nearly impossible to decode.</p>
+                    <h3>Classical Cryptography</h3>
+                    <p>Caesar cipher, substitution ciphers, and other classical methods: simple mathematical transformations of letters and numbers.</p>
+                    <h3>Modern Asymmetric Cryptography</h3>
+                    <p>RSA encryption uses the mathematical fact that:<br>• Multiplying two large primes is easy<br>• Factoring their product back into primes is extremely hard</p>
+                    <h3>How RSA Works</h3>
+                    <p>1. Generate two large prime numbers (p and q)<br>2. Multiply them: n = p × q<br>3. Public key: (n, e) - easy to use for encoding<br>4. Private key: derived from p, q - needed for decoding<br>5. Without knowing p and q, decrypting takes billions of years!</p>
+                    <button class="interactive-btn" onclick="showFact('Modern encryption keys are 2048-4096 bits. Factoring such numbers would take all computers on Earth billions of years!')">✭ Security Scale</button>
+                    <h3>Elliptic Curve Cryptography</h3>
+                    <p>Uses properties of elliptic curves over finite fields. More efficient than RSA with the same security level.</p>
+                    <h3>Hash Functions</h3>
+                    <p>One-way functions that convert any input to a fixed-size output. Changing one bit in the input completely changes the output.</p>
+                    <h3>Digital Signatures</h3>
+                    <p>Mathematical proof that a message came from you and hasn't been modified. Uses public key cryptography.</p>
+                    <h3>Quantum Cryptography Threat</h3>
+                    <p>Quantum computers could break RSA by factoring efficiently. This is why we're developing quantum-resistant cryptography now.</p>
+                    <h3>Everyday Applications</h3>
+                    <p>• HTTPS (secure web browsing)<br>• Bank transactions<br>• Digital wallets and cryptocurrency<br>• Email encryption<br>• Corporate secrets and government communications</p>
+                `
+            },
+            12: {
+                title: "The Philosophy of Mathematics",
+                badge: "PHILOSOPHY",
+                content: `
+                    <h2>The Philosophy of Mathematics ✧</h2>
+                    <p>Is mathematics discovered or invented? This question has puzzled philosophers for centuries and remains one of the deepest questions in philosophy of mind and reality.</p>
+                    <h3>Platonism</h3>
+                    <p>Mathematical objects (numbers, geometric shapes) exist in an abstract realm independent of human minds. We discover mathematics, not invent it. The number 3 existed before humans did!</p>
+                    <h3>Formalism</h3>
+                    <p>Mathematics is a game of symbols following rules. There is no underlying reality to discover - mathematicians simply invent consistent formal systems.</p>
+                    <h3>Intuitionism</h3>
+                    <p>Mathematics exists only in the human mind. It's based on intuition and mental constructions, not objective truth.</p>
+                    <h3>The Unreasonable Effectiveness</h3>
+                    <p>Physicist Eugene Wigner wondered: "Why is mathematics so unreasonably effective at describing the physical world?" Why should abstract mathematics perfectly describe reality?</p>
+                    <button class="interactive-btn" onclick="showFact('Gravity was described by Newton\\'s mathematics, Einstein\\'s non-Euclidean geometry, and now quantum field theory mathematics.')">✸ Nature's Language</button>
+                    <h3>Mathematical Beauty</h3>
+                    <p>Mathematicians consistently find that the most beautiful equations (like Einstein's E=mc²) turn out to describe nature accurately. Is this coincidence or something deeper?</p>
+                    <h3>The Infinity Problem</h3>
+                    <p>Infinity appears throughout mathematics but is impossible to experience directly. Is infinity real or just a useful mathematical concept?</p>
+                    <h3>Emergence of Structure</h3>
+                    <p>Patterns emerge naturally in mathematical systems: fractals, primes, symmetries. Are these discovered patterns or artifacts of our definitions?</p>
+                    <h3>Mathematical Universality</h3>
+                    <p>Different civilizations independently discovered the same mathematics. This suggests something universal, not invented.</p>
+                    <h3>Open Questions</h3>
+                    <p>• Does mathematics exist outside human minds?<br>• Why does math describe physical reality so accurately?<br>• Are all truths expressible mathematically?<br>• Does the universe fundamentally operate on mathematical principles?</p>
+                    <button class="interactive-btn" onclick="showFact('Some scientists argue the universe IS mathematics - not that it\\'s described by math, but that reality fundamentally IS mathematical structure!')">✡ Radical View</button>
+                    <h3>Why It Matters</h3>
+                    <p>These philosophical questions influence how mathematicians approach their work, what they consider important, and how mathematics should be taught. They're also deeply personal questions about the nature of reality itself.</p>
+                `
+            }
+        };
+
+        function openArticle(num) {
+            const article = articles[num];
+            const modal = document.getElementById('articleModal');
+            const body = document.getElementById('articleBody');
+            body.innerHTML = article.content;
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeArticle() {
+            document.getElementById('articleModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('articleModal');
+            if (event.target == modal) {
+                closeArticle();
+            }
+        }
+
+        function showFact(fact) {
+            alert(fact);
+        }
+
+        // Interactive Functions for Articles
+        function showFibonacci() {
+            let n = prompt('How many Fibonacci numbers do you want? (max 20):', '10');
+            n = Math.min(parseInt(n) || 10, 20);
+            let fib = [0, 1];
+            for (let i = 2; i < n; i++) {
+                fib.push(fib[i-1] + fib[i-2]);
+            }
+            alert('First ' + n + ' Fibonacci numbers:\n' + fib.slice(0, n).join(', '));
+        }
+
+        function calculateDerivative() {
+            let f = prompt('Enter a simple polynomial (e.g., "x^2" or "x^3 + 2x"):', 'x^2');
+            alert('For demonstration, the derivative of x^2 is 2x\nFor x^3 is 3x^2\nCalculus finds instantaneous rates of change!');
+        }
+
+        function generatePascalsTriangle() {
+            let rows = prompt("How many rows of Pascal's Triangle? (max 10):", "6");
+            rows = Math.min(parseInt(rows) || 6, 10);
+            let triangle = '';
+            for (let i = 0; i < rows; i++) {
+                let row = '';
+                for (let j = 0; j <= i; j++) {
+                    let val = 1;
+                    if (j > 0 && j < i) {
+                        val = Math.floor(factorial(i) / (factorial(j) * factorial(i - j)));
+                    }
+                    row += val + ' ';
+                }
+                triangle += row + '\n';
+            }
+            alert("Pascal's Triangle:\n\n" + triangle);
+        }
+
+        function factorial(n) {
+            if (n <= 1) return 1;
+            return n * factorial(n - 1);
+        }
+
+        function checkPrime() {
+            let num = prompt("Enter a number to check if it's prime:", "17");
+            num = parseInt(num);
+            if (isNaN(num) || num < 2) {
+                alert('Please enter a number greater than 1');
+                return;
+            }
+            let isPrime = true;
+            for (let i = 2; i < num; i++) {
+                if (num % i === 0) {
+                    isPrime = false;
+                    break;
+                }
+            }
+            alert(num + ' is ' + (isPrime ? 'PRIME ✓' : 'NOT prime (divisible by smaller numbers)'));
+        }
+
+        function matrixMultiply() {
+            alert('Matrix Multiplication Example:\n\n' +
+                  '[[1, 2],     [[5, 6],     [[19, 22],\n' +
+                  ' [3, 4]]  ×   [7, 8]]  =   [43, 50]]\n\n' +
+                  'This is what happens millions of times per second in neural networks!');
+        }
+
+        // --- Dynamic Features ---
+        // Animated Counter for Page Load
+        document.addEventListener('DOMContentLoaded', function() {
+            animateCounters();
+            addCardAnimations();
+            addMouseTrackingEffect();
+            addScrollAnimations();
+            addArticleCardGradient();
+            addRealtimeAnimations();
+            fetchAndApplyMetadata();
+        });
+
+        function animateCounters() {
+            const statCards = document.querySelectorAll('.stat-card');
+            statCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.animation = 'zoomIn 0.6s ease-out forwards';
+                }, index * 100);
+            });
+        }
+
+        function addCardAnimations() {
+            const articleCards = document.querySelectorAll('.article-card');
+            articleCards.forEach((card, index) => {
+                card.style.animationDelay = (index * 0.1) + 's';
+                card.addEventListener('mouseenter', function() {
+                    this.style.filter = 'brightness(1.2)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.filter = 'brightness(1)';
+                });
+            });
+        }
+
+        function addMouseTrackingEffect() {
+            // Use an inner wrapper `.card-inner` for rotations so translate animations don't conflict
+            const cards = document.querySelectorAll('.tech-item, .article-card');
+            cards.forEach(card => {
+                if (!card.querySelector('.card-inner')) {
+                    const inner = document.createElement('div');
+                    inner.className = 'card-inner';
+                    // move children into inner
+                    while (card.firstChild) inner.appendChild(card.firstChild);
+                    card.appendChild(inner);
+                    // ensure positioning
+                    card.style.position = card.style.position || 'relative';
+                    inner.style.transformStyle = 'preserve-3d';
+                    inner.style.transition = 'transform 0.18s ease-out';
+                    inner.style.pointerEvents = 'auto';
+                }
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                const wrappers = document.querySelectorAll('.article-card .card-inner, .tech-item .card-inner');
+                wrappers.forEach(inner => {
+                    const card = inner.parentElement;
+                    // Skip tilt if hovering a button to prevent cursor flicker
+                    if (e.target && (e.target.tagName === 'BUTTON' || e.target.closest('button'))) {
+                        inner.style.transform = 'perspective(900px) rotateX(0) rotateY(0) translateZ(0)';
+                        return;
+                    }
+                    
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const angleX = (y - centerY) / centerY * 8; // smaller tilt
+                    const angleY = (centerX - x) / centerX * 8;
+
+                    if (x > 0 && x < rect.width && y > 0 && y < rect.height) {
+                        inner.style.transform = `perspective(900px) rotateX(${angleX}deg) rotateY(${angleY}deg) translateZ(10px)`;
+                    } else {
+                        inner.style.transform = 'perspective(900px) rotateX(0) rotateY(0) translateZ(0)';
+                    }
+                });
+            });
+
+            document.addEventListener('mouseleave', function() {
+                const wrappers = document.querySelectorAll('.article-card .card-inner, .tech-item .card-inner');
+                wrappers.forEach(inner => { inner.style.transform = 'perspective(900px) rotateX(0) rotateY(0) translateZ(0)'; });
+            });
+        }
+
+        function addScrollAnimations() {
+            const elements = document.querySelectorAll('.article-card, .tech-item');
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'slideInUp 0.6s ease-out forwards';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            elements.forEach(el => observer.observe(el));
+        }
+
+        // Animated number counter
+        function countToNumber(element, target, duration = 2000) {
+            let current = 0;
+            const increment = target / (duration / 16);
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 16);
+        }
+
+        // Add ripple effect on button clicks
+        document.querySelectorAll('.interactive-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
+
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // Floating animation for cards on scroll
+        window.addEventListener('scroll', function() {
+            const cards = document.querySelectorAll('.tech-item, .article-card');
+            cards.forEach((card, index) => {
+                const scrollY = window.scrollY;
+                const offset = (scrollY * 0.05) * (index % 2 === 0 ? 1 : -1);
+                card.style.transform = `translateY(${offset}px)`;
+            });
+        });
+
+        // Dynamic background particles effect
+        function createFloatingParticles() {
+            const container = document.querySelector('body');
+            const particleCount = 15;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'floating-particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            }
+        }
+
+        // Add glow effect on button hover
+        document.querySelectorAll('.interactive-btn').forEach(btn => {
+            btn.addEventListener('mouseenter', function() {
+                this.style.boxShadow = '0 0 20px rgba(234, 102, 102, 0.8), inset 0 0 10px rgba(234, 102, 102, 0.3)';
+            });
+            btn.addEventListener('mouseleave', function() {
+                this.style.boxShadow = '0 10px 30px rgba(234, 102, 102, 0.3)';
+            });
+        });
+
+        // Pulse animation for stat numbers
+        window.addEventListener('load', function() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            statNumbers.forEach(num => {
+                num.style.animation = 'pulse 2s ease-in-out infinite';
+            });
+        });
+
+        // Add subtle gradient glow to article cards on scroll
+        function addArticleCardGradient() {
+            const cards = document.querySelectorAll('.article-card');
+            window.addEventListener('scroll', function() {
+                cards.forEach(card => {
+                    const rect = card.getBoundingClientRect();
+                    const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+                    
+                    if (isVisible) {
+                        // Add subtle glow based on visibility
+                        const opacity = Math.max(0.3, 1 - Math.abs(rect.top - window.innerHeight / 2) / window.innerHeight);
+                        card.style.filter = `drop-shadow(0 0 ${opacity * 30}px rgba(234, 102, 102, 0.4))`;
+                    }
+                });
+            });
+        }
+
+        // Real-time continuous animations (simple, independent bobbing)
+        function addRealtimeAnimations() {
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes cardBobbing { 0% { transform: translateY(0px); } 50% { transform: translateY(-4px); } 100% { transform: translateY(0px); } }
+                .article-card { will-change: transform; }
+                .card-bob { animation-name: cardBobbing; animation-timing-function: ease-in-out; animation-iteration-count: infinite; }
+            `;
+            document.head.appendChild(style);
+
+            const cards = document.querySelectorAll('.article-card');
+            cards.forEach((card, i) => {
+                // give each card a small independent bobbing; amplitude small to avoid overlap
+                card.classList.add('card-bob');
+                const duration = (3 + Math.random() * 2).toFixed(2) + 's'; // 3-5s
+                const delay = (Math.random() * 2).toFixed(2) + 's';
+                card.style.animationDuration = duration;
+                card.style.animationDelay = delay;
+                // ensure transforms applied here don't conflict with inner rotations
+                card.style.transform = card.style.transform || '';
+            });
+        }
+        
+        // Fetch metadata from server and apply dynamic ordering / theme
+        function fetchAndApplyMetadata() {
+            function shuffleArray(arr) {
+                for (let i = arr.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                }
+                return arr;
+            }
+
+            function generateLocalMetadata() {
+                const greetings = [
+                    "Welcome to SiteCraft",
+                    "Hello — enjoy exploring",
+                    "Discover new tools",
+                    "Greetings, builder",
+                    "Fresh layout for you"
+                ];
+                const themes = ["default","vibrant","dark","pastel","retro"];
+
+                // Shuffle articles
+                const cards = Array.from(document.querySelectorAll('.article-card'));
+                const ids = cards.map((el, idx) => {
+                    if (!el.dataset.cardId) el.dataset.cardId = 'card-' + (idx + 1);
+                    return el.dataset.cardId;
+                });
+
+                const shuffled = shuffleArray(ids.slice());
+                const tags = {};
+                cards.forEach(el => {
+                    const id = el.dataset.cardId;
+                    const badge = el.querySelector('.article-badge');
+                    tags[id] = badge ? badge.textContent : '';
+                });
+
+                // Shuffle utilities/techs
+                const techs = Array.from(document.querySelectorAll('.tech-item'));
+                const techIds = techs.map((el, idx) => {
+                    if (!el.dataset.techId) el.dataset.techId = 'tech-' + (idx + 1);
+                    return el.dataset.techId;
+                });
+
+                const shuffledTechs = shuffleArray(techIds.slice());
+                const techTags = {};
+                techs.forEach(el => {
+                    const id = el.dataset.techId;
+                    const label = el.querySelector('.tech-label');
+                    techTags[id] = label ? label.textContent : '';
+                });
+
+                return {
+                    greeting: greetings[Math.floor(Math.random() * greetings.length)],
+                    theme: themes[Math.floor(Math.random() * themes.length)],
+                    order: shuffled,
+                    tags,
+                    techOrder: shuffledTechs,
+                    techTags
+                };
+            }
+
+            function applyMetadata(data) {
+                try {
+                    const hero = document.querySelector('.tech-hero-content h1');
+                    if (hero && data.greeting) hero.textContent = data.greeting;
+                    if (data.theme) document.body.setAttribute('data-theme', data.theme);
+
+                    const grid = document.querySelector('.articles-grid');
+                    const articleCards = Array.from(document.querySelectorAll('.article-card'));
+                    articleCards.forEach((el, idx) => { if (!el.dataset.cardId) el.dataset.cardId = 'card-' + (idx + 1); });
+
+                    if (Array.isArray(data.order) && data.order.length && grid) {
+                        data.order.forEach(id => {
+                            const el = articleCards.find(a => a.dataset.cardId === id);
+                            if (el) grid.appendChild(el);
+                            if (el && data.tags && data.tags[id]) {
+                                const badge = el.querySelector('.article-badge');
+                                if (badge) badge.textContent = data.tags[id];
+                            }
+                        });
+                    }
+                    // reorder tech utilities if provided
+                    const techItems = Array.from(document.querySelectorAll('.tech-item'));
+                    techItems.forEach((el, idx) => { if (!el.dataset.techId) el.dataset.techId = 'tech-' + (idx + 1); });
+                    if (data.techOrder && data.techOrder.length) {
+                        const techGrid = document.querySelector('.tech-grid');
+                        data.techOrder.forEach(tid => {
+                            const tel = techItems.find(t => t.dataset.techId === tid);
+                            if (tel && techGrid) techGrid.appendChild(tel);
+                            if (tel && data.techTags && data.techTags[tid]) {
+                                const label = tel.querySelector('.tech-label');
+                                if (label) label.textContent = data.techTags[tid];
+                            }
+                        });
+                    }
+                } catch (e) { console.warn('metadata apply error', e); }
+            }
+
+            // If opened via file://, skip network and use local generation
+            if (window.location.protocol === 'file:') {
+                applyMetadata(generateLocalMetadata());
+                return;
+            }
+
+            if (!window.fetch) { applyMetadata(generateLocalMetadata()); return; }
+
+            fetch('/api/metadata').then(r => r.json()).then(data => {
+                applyMetadata(data);
+            }).catch(() => {
+                // server unavailable — fall back to local randomized metadata
+                applyMetadata(generateLocalMetadata());
+            });
+        }
+        // Add more drastic, user-triggered dynamics
+        function addUserTriggeredDynamics() {
+            bindFullscreenExpand();
+            bindImmersiveToggle();
+            bindDragReveal();
+        }
+
+        function bindFullscreenExpand() {
+            const style = document.createElement('style');
+            style.textContent = `
+                .card-overlay { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(6,8,10,0.9); z-index: 2200; opacity: 0; transform: scale(0.98); transition: opacity .22s ease, transform .22s ease; }
+                .card-overlay.visible { opacity: 1; transform: scale(1); }
+                .card-overlay .article-card { max-width: 92%; max-height: 92%; overflow: auto; transform: none !important; box-shadow: 0 30px 80px rgba(0,0,0,0.6); border-radius: 12px; }
+                .card-overlay-close { position: absolute; right: 18px; top: 18px; background: rgba(0,0,0,0.4); color: #fff; border: none; width: 44px; height: 44px; border-radius: 50%; font-size: 24px; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+            `;
+            document.head.appendChild(style);
+
+            document.querySelectorAll('.article-card').forEach(card => {
+                card.addEventListener('dblclick', function(e) {
+                    const overlay = document.createElement('div');
+                    overlay.className = 'card-overlay';
+
+                    const clone = this.cloneNode(true);
+                    clone.classList.add('expanded-clone');
+                    overlay.appendChild(clone);
+
+                    const close = document.createElement('button');
+                    close.className = 'card-overlay-close';
+                    close.textContent = '✕';
+                    overlay.appendChild(close);
+
+                    document.body.appendChild(overlay);
+                    // Force paint then show
+                    requestAnimationFrame(() => overlay.classList.add('visible'));
+
+                    function removeOverlay() {
+                        overlay.classList.remove('visible');
+                        setTimeout(() => overlay.remove(), 240);
+                    }
+
+                    close.addEventListener('click', removeOverlay);
+                    overlay.addEventListener('click', (ev) => { if (ev.target === overlay) removeOverlay(); });
+                });
+            });
+        }
+
+        function bindImmersiveToggle() {
+            // Toggle immersive theme when pressing 'i' (lowercase or uppercase)
+            const style = document.createElement('style');
+            style.id = 'immersive-style';
+            style.textContent = `
+                body.immersive { background: radial-gradient(ellipse at center, #071019 0%, #001219 60%); color: #dfffe6; transition: background .5s ease, color .5s ease; }
+                body.immersive .article-card { background: linear-gradient(135deg, rgba(3,18,21,0.85), rgba(6,34,40,0.85)); color: #eaffea; box-shadow: 0 30px 80px rgba(0,255,150,0.06); transform: translateZ(0); }
+                body.immersive header, body.immersive nav { filter: drop-shadow(0 6px 16px rgba(0,255,150,0.06)); }
+            `;
+            document.head.appendChild(style);
+
+            let immersive = false;
+            window.addEventListener('keydown', function(e) {
+                if (e.key.toLowerCase() === 'i') {
+                    immersive = !immersive;
+                    document.body.classList.toggle('immersive', immersive);
+                }
+            });
+        }
+
+        function bindDragReveal() {
+            const panelStyle = document.createElement('style');
+            panelStyle.textContent = `
+                .side-panel { position: fixed; top: 0; bottom: 0; width: 420px; max-width: 80%; background: linear-gradient(180deg, rgba(10,10,12,0.98), rgba(18,18,20,0.98)); right: -420px; z-index:2100; box-shadow: -20px 0 60px rgba(0,0,0,0.6); transition: right .36s cubic-bezier(.2,.9,.3,1); overflow:auto; padding: 28px; color:#e6fff0; }
+                .side-panel.open { right: 0; }
+            `;
+            document.head.appendChild(panelStyle);
+
+            let dragState = null;
+            document.querySelectorAll('.article-card').forEach(card => {
+                card.style.touchAction = 'none';
+                card.addEventListener('pointerdown', function(e) {
+                    const startX = e.clientX;
+                    dragState = { el: this, startX, moved: 0 };
+                    this.setPointerCapture(e.pointerId);
+                });
+
+                card.addEventListener('pointermove', function(e) {
+                    if (!dragState || dragState.el !== this) return;
+                    const dx = e.clientX - dragState.startX;
+                    dragState.moved = dx;
+                    this.style.transform = `translateX(${dx}px) scale(${Math.max(0.95, 1 - Math.abs(dx)/1200)})`;
+                });
+
+                card.addEventListener('pointerup', function(e) {
+                    if (!dragState || dragState.el !== this) return;
+                    const dx = dragState.moved;
+                    this.releasePointerCapture(e.pointerId);
+                    this.style.transition = 'transform .36s ease';
+                    if (Math.abs(dx) > 150) {
+                        const dir = dx > 0 ? 1 : -1;
+                        this.style.transform = `translateX(${dir * 110}vw) scale(0.96)`;
+                        setTimeout(() => { this.style.transform = ''; this.style.transition = ''; }, 420);
+                        openSidePanel(this, dx > 0 ? 'right' : 'left');
+                    } else {
+                        this.style.transform = '';
+                        setTimeout(() => { this.style.transition = ''; }, 380);
+                    }
+                    dragState = null;
+                });
+            });
+
+            function openSidePanel(card, side) {
+                let panel = document.querySelector('.side-panel');
+                if (!panel) {
+                    panel = document.createElement('div');
+                    panel.className = 'side-panel';
+                    document.body.appendChild(panel);
+                }
+                panel.innerHTML = '';
+                const heading = document.createElement('h2');
+                heading.textContent = card.querySelector('h3') ? card.querySelector('h3').textContent : 'Details';
+                const content = document.createElement('div');
+                content.innerHTML = card.innerHTML;
+                panel.appendChild(heading);
+                panel.appendChild(content);
+                requestAnimationFrame(() => panel.classList.add('open'));
+
+                function closePanel() { panel.classList.remove('open'); }
+                document.addEventListener('keydown', function esc(e) { if (e.key === 'Escape') { closePanel(); document.removeEventListener('keydown', esc); } });
+            }
+        }
+
+        // Initialize user-triggered dynamics after realtime animations
+        addUserTriggeredDynamics();
+    </script>
+
+    <!-- Boredom Slide-in Popup (RED THEME) -->
+<div id="boredPopup" style="
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    width: 360px;
+
+    /* 🔴 RED GLASS BACKGROUND */
+    background: rgba(120, 0, 0, 0.45);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    color: #ffe5e5;
+    padding: 26px 28px;
+    border-radius: 16px;
+
+    box-shadow:
+        0 18px 50px rgba(0,0,0,0.55),
+        0 0 30px rgba(255,60,60,0.5);
+
+    border: 1px solid rgba(255,120,120,0.35);
+
+    font-size: 1.05rem;
+    z-index: 9999;
+
+    transform: translateX(120%);
+    opacity: 0;
+    transition: transform 0.6s ease, opacity 0.6s ease;
+">
+
+    <p style="margin-bottom:22px; line-height:1.5;">
+        🔥 Feel bored?<br>
+        <span style="color:#ffb3b3; font-size:0.95rem;">
+            Here’s something cool for you.
+        </span>
+    </p>
+
+    <div style="display:flex; gap:14px;">
+        <button onclick="handleLetsGo()" style="
+            flex:1;
+            padding:12px;
+            border:none;
+            border-radius:10px;
+            cursor:pointer;
+            font-size:0.95rem;
+
+            background: linear-gradient(135deg, #ff3b3b, #c40000);
+            color:white;
+            box-shadow: 0 0 18px rgba(255,60,60,0.6);
+        ">
+            Let’s Go
+        </button>
+
+        <button onclick="handleNoThanks()" style="
+            flex:1;
+            padding:12px;
+            border-radius:10px;
+            cursor:pointer;
+            font-size:0.95rem;
+
+            background: rgba(255,255,255,0.06);
+            color:#ffdada;
+            border:1px solid rgba(255,140,140,0.4);
+        ">
+            No Thanks
+        </button>
+    </div>
+</div>
+
+<!-- ✅ HOVER EFFECTS (WORK FOR ALL THEMES) -->
+<style>
+#boredPopup button {
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+#boredPopup button:hover {
+    transform: translateY(-2px) scale(1.04);
+    filter: brightness(1.15);
+}
+</style>
+
+<script>
+(function () {
+    const popup = document.getElementById("boredPopup");
+    const POPUP_INTERVAL = 10000;
+    let visible = false;
+
+    /* AUDIO */
+    let audioCtx, unlocked = false;
+
+    function unlockAudio() {
+        if (unlocked) return;
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        audioCtx.resume().then(() => unlocked = true);
+        document.removeEventListener("click", unlockAudio);
+        document.removeEventListener("keydown", unlockAudio);
+    }
+    document.addEventListener("click", unlockAudio);
+    document.addEventListener("keydown", unlockAudio);
+
+    function softConfirmSound() {
+        if (!unlocked) return;
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.type = "triangle";
+        o.frequency.value = 420;
+        g.gain.setValueAtTime(0.001, audioCtx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.05, audioCtx.currentTime + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
+        o.connect(g);
+        g.connect(audioCtx.destination);
+        o.start();
+        o.stop(audioCtx.currentTime + 0.14);
+    }
+
+    function clickSound() {
+        if (!unlocked) return;
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.type = "square";
+        o.frequency.value = 900;
+        g.gain.value = 0.05;
+        o.connect(g);
+        g.connect(audioCtx.destination);
+        o.start();
+        o.stop(audioCtx.currentTime + 0.05);
+    }
+
+    function showPopup() {
+        if (visible) return;
+        popup.style.transform = "translateX(0)";
+        popup.style.opacity = "1";
+        visible = true;
+    }
+
+    function hidePopup() {
+        popup.style.transform = "translateX(120%)";
+        popup.style.opacity = "0";
+        visible = false;
+    }
+
+    window.handleLetsGo = function () {
+        softConfirmSound();
+        setTimeout(() => {
+            window.location.href = "games.html";
+        }, 140);
+    };
+
+    window.handleNoThanks = function () {
+        clickSound();
+        hidePopup();
+    };
+
+    setTimeout(showPopup, 1500);
+    setInterval(showPopup, POPUP_INTERVAL);
+})();
+</script>
+
+</body>
+</html>

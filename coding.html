@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extras - Rebel Tech Alliance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Orbitron:wght@400;700;900&family=Audiowide&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="coding.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="index.html" class="logo">✦ Nokia Union</a>
+        <ul class="nav-links">
+            <li><a href="math.html">Math Utilities</a></li>
+            <li><a href="it.html">IT Utilities</a></li>
+            <li><a href="About.html">About</a></li>
+            <li><a href="coding.html">Coding Problems</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>CODING PROBLEMS</h1>
+            <p class="subtitle">Galactic Engineering & Innovation</p>
+            <p class="description">
+                Advanced technology systems powering the Rebellion. We engineer the future across the galaxy with cutting-edge innovation and revolutionary solutions.
+            </p>
+            <div style="display:flex; gap:12px; margin-top:10px; justify-content:center;">
+                <a href="#coding" class="hero-btn">Start Coding</a>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 2v12m0 0l-6-6m6 6l6-6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    <!-- Coding Challenges Section -->
+    <section class="features" id="coding">
+        <div class="wrap">
+            <h2 class="section-title">Coding Challenges</h2>
+            <div class="grid">
+                <div class="panel">
+                    <h3>Problems</h3>
+                    <div class="problem-list" id="problemList"></div>
+                </div>
+
+                <div class="panel">
+                    <h3 id="probTitle">Select a problem</h3>
+                    <div id="probDesc" class="muted">Problem description will appear here.</div>
+                    <div style="margin-top:8px;">
+                        <textarea id="editor" class="editor"># Write a function named `solution` that accepts the test args
+# Example:
+def solution(a, b):
+    return a + b
+</textarea>
+                    </div>
+                    <div style="display:flex;gap:8px;margin-top:8px;">
+                        <button class="btn" onclick="runTests()">Run Tests</button>
+                        <button onclick="resetEditor()" style="background:#444;border:none;color:#fff;padding:10px;border-radius:6px">Reset</button>
+                    </div>
+                    <div style="margin-top:10px">
+                        <strong>Output</strong>
+                        <pre id="output">No runs yet.</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Local Chatbot (client-side generator) -->
+    <section class="features" id="localbot" style="margin-top:18px;">
+        <div class="wrap">
+            <h2 class="section-title">Local Prompt Bot</h2>
+            <div style="display:flex;gap:12px;align-items:flex-start;">
+                <div style="flex:1;">
+                    <textarea id="botInput" placeholder="Ask: 'Give me a beginner python array problem'" style="width:100%;height:80px;padding:10px;border-radius:6px"></textarea>
+                    <div style="margin-top:8px;display:flex;gap:8px;">
+                        <button class="btn" onclick="askLocalBot()">Ask Bot</button>
+                        <button onclick="clearBot()" style="background:#777;border:none;color:#fff;padding:10px;border-radius:6px">Clear</button>
+                    </div>
+                </div>
+                <div style="flex:1;">
+                    <div style="background:rgba(0,0,0,0.6);padding:10px;border-radius:6px;color:#fff;min-height:80px" id="botOut">Bot replies will appear here.</div>
+                    <div style="margin-top:8px;text-align:right;">
+                        <button onclick="useBotAsProblem()" style="background:linear-gradient(135deg,#6bd36b,#2a9b3b);border:none;color:#fff;padding:8px;border-radius:6px">Use as Problem</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; Rebel Alliance Engineering. | May the Force be with you.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
+    <script>
+        let pyodideReady = null;
+
+        // Pyodide initialization
+
+        (function(){
+            const out = document.getElementById('output');
+            out && (out.textContent = 'Loading Python runtime...');
+            pyodideReady = (async () => {
+                try{
+                    window.pyodide = await loadPyodide({indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.23.4/full/'});
+                    out && (out.textContent = 'Python runtime ready.');
+                }catch(e){
+                    out && (out.textContent = 'Failed to load Python runtime: ' + e.message);
+                }
+            })();
+        })();
+
+        const problems = [
+            { id: 'sum-two', title: 'Sum Two Numbers', desc: 'Return the sum of two numbers. Signature: solution(a, b)', template: 'def solution(a, b):\n    return a + b', tests: [ {args:[1,2], expected:3}, {args:[-1,5], expected:4}, {args:[100,200], expected:300} ] },
+            { id: 'reverse-str', title: 'Reverse String', desc: 'Return the input string reversed. Signature: solution(s)', template: 'def solution(s):\n    return s[::-1]', tests: [ {args:['abc'], expected:'cba'}, {args:['racecar'], expected:'racecar'} ] },
+            { id: 'fib-n', title: 'Nth Fibonacci (small n)', desc: 'Return the Nth Fibonacci number (0-indexed). Signature: solution(n)', template: 'def solution(n):\n    a,b=0,1\n    for _ in range(n):\n        a,b=b,a+b\n    return a', tests: [ {args:[0], expected:0}, {args:[1], expected:1}, {args:[6], expected:8} ] }
+        ];
+
+        const problemListEl = document.getElementById('problemList');
+        const probTitle = document.getElementById('probTitle');
+        const probDesc = document.getElementById('probDesc');
+        const editor = document.getElementById('editor');
+        const testsArea = document.getElementById('testsArea');
+        const output = document.getElementById('output');
+
+        let active = null;
+
+        function renderProblemList(){
+            problemListEl.innerHTML = '';
+            problems.forEach(p => {
+                const div = document.createElement('div');
+                div.className = 'problem-item';
+                div.textContent = p.title;
+                div.onclick = () => selectProblem(p.id);
+                problemListEl.appendChild(div);
+            });
+        }
+
+        function selectProblem(id){
+            const p = problems.find(x=>x.id===id);
+            if(!p) return;
+            active = p;
+            probTitle.textContent = p.title;
+            probDesc.textContent = p.desc;
+            editor.value = p.template + '\n\n# Use print() for debug output.';
+            renderTests();
+            output.textContent = 'Editor loaded for: ' + p.title;
+        }
+
+        function renderTests(){
+            testsArea.innerHTML = '';
+            active.tests.forEach((t,i)=>{
+                const el = document.createElement('div');
+                el.style.padding='6px 0';
+                el.innerHTML = `<strong>Case ${i+1}:</strong> args=${JSON.stringify(t.args)} expected=${JSON.stringify(t.expected)}`;
+                testsArea.appendChild(el);
+            });
+        }
+
+        function resetEditor(){ if(active) editor.value = active.template; }
+
+        async function runTests(){
+            if(!active){ output.textContent = 'Select a problem first.'; return; }
+            const outEl = output;
+            outEl.textContent = 'Preparing Python...';
+            await pyodideReady;
+            outEl.textContent = 'Running tests...';
+
+            const userCode = editor.value || '';
+            const results = [];
+
+            for(const t of active.tests){
+                try{
+                    const argsJSON = JSON.stringify(t.args);
+                    const pyCode = `import json\nargs = json.loads(r'''${argsJSON}''')\n_user_code = ${JSON.stringify(userCode)}\nglobals_dict = {}\ntry:\n    exec(_user_code, globals_dict)\nexcept Exception as e:\n    raise\nif 'solution' not in globals_dict:\n    raise NameError('solution is not defined')\nres = globals_dict['solution'](*args)\njson.dumps(res)`;
+                    const pyOut = await pyodide.runPythonAsync(pyCode);
+                    let actual = null;
+                    try{ actual = JSON.parse(pyOut); }catch(e){ actual = pyOut; }
+                    const passed = JSON.stringify(actual) === JSON.stringify(t.expected);
+                    results.push({args:t.args, expected:t.expected, actual, passed});
+                }catch(err){
+                    results.push({args:t.args, expected:t.expected, actual:null, passed:false, err: String(err)});
+                }
+            }
+
+            let out = '';
+            results.forEach((r,i)=>{
+                out += `Case ${i+1}: ` + (r.passed ? '[PASS]\n' : '[FAIL]\n');
+                out += `  args: ${JSON.stringify(r.args)}\n`;
+                out += `  expected: ${JSON.stringify(r.expected)}\n`;
+                out += `  actual: ${JSON.stringify(r.actual)}\n`;
+                if(r.err) out += `  error: ${r.err}\n`;
+            });
+            outEl.textContent = out;
+
+            // No remote AI judge in this build.
+        }
+
+        renderProblemList();
+        selectProblem(problems[0].id);
+        </script>
+    <script>
+        // Simple local chatbot / prompt generator (no external AI)
+        let lastBotProblem = null;
+        function clearBot(){ document.getElementById('botInput').value=''; document.getElementById('botOut').textContent='Bot replies will appear here.'; lastBotProblem=null; }
+
+        function askLocalBot(){
+            const q = (document.getElementById('botInput').value||'').toLowerCase().trim();
+            if(!q) { document.getElementById('botOut').textContent='Please enter a request like "beginner array problem" or "give me a hard string challenge"'; return; }
+            const prob = generateProblemFromPrompt(q);
+            lastBotProblem = prob;
+            const out = `✓ Generated: ${prob.title}\n\n${prob.desc}\n\nTemplate:\n${prob.template}\n\nTest Cases:\n${prob.tests.map((t,i)=>`${i+1}. Input: ${JSON.stringify(t.args)} → Expected: ${JSON.stringify(t.expected)}`).join('\n')}`;
+            document.getElementById('botOut').textContent = out;
+        }
+
+        function useBotAsProblem(){
+            if(!lastBotProblem){ document.getElementById('botOut').textContent='No generated problem to use. Ask the bot first.'; return; }
+            // Remove previous bot-generated problem to avoid duplicates
+            const lastBotIdx = problems.findIndex(p => p.id && p.id.startsWith('local-'));
+            if(lastBotIdx !== -1) problems.splice(lastBotIdx, 1);
+            // Add new problem
+            problems.push(lastBotProblem);
+            renderProblemList();
+            selectProblem(lastBotProblem.id);
+            document.getElementById('botOut').textContent = 'Problem added to library and loaded into editor.';
+            lastBotProblem = null;
+        }
+
+        function generateProblemFromPrompt(prompt){
+            // detect difficulty - more patterns
+            let difficulty = 'beginner';
+            if(/hard|advanced|expert|challenging/.test(prompt)) difficulty = 'advanced';
+            else if(/inter|mid|medium|intermediate/.test(prompt)) difficulty = 'intermediate';
+            else if(/beginner|easy|simple|basic/.test(prompt)) difficulty = 'beginner';
+
+            // detect topic with comprehensive patterns
+            let topic = '';
+            if(/string|palindrome|reverse|text|char|letter|substring|extract/.test(prompt)) topic = 'string';
+            else if(/fib|fibonacci|sequence|series/.test(prompt)) topic = 'fib';
+            else if(/sort|merge|quick|bubble|order|ascending|descending|arrange/.test(prompt)) topic = 'sort';
+            else if(/prime|divisor|factor|factorization|composite/.test(prompt)) topic = 'prime';
+            else if(/array|list|sum|add|math|number|element|index|slice|subset|subsequence/.test(prompt)) topic = 'array';
+            else topic = 'array'; // default
+
+            const id = 'local-'+topic+'-'+Date.now();
+            let title=''; let desc=''; let template=''; let tests = [];
+
+            // problem variants per topic (randomly chosen)
+            if(topic==='string'){
+                const variants = [
+                    { title: `${capitalize(difficulty)} String Reverse`,
+                      desc: 'Return the input string reversed.',
+                      template: `def solution(s):\n    return s[::-1]`,
+                      tests: [{args:['abc'], expected:'cba'},{args:['racecar'], expected:'racecar'},{args:['hello'], expected:'olleh'}]
+                    },
+                    { title: `${capitalize(difficulty)} Palindrome Check`,
+                      desc: 'Return true if the string is a palindrome (reads same forwards and backwards).',
+                      template: `def solution(s):\n    return s==s[::-1]`,
+                      tests: [{args:['racecar'], expected:true},{args:['hello'], expected:false},{args:['a'], expected:true}]
+                    },
+                    { title: `${capitalize(difficulty)} Vowel Count`,
+                      desc: 'Count the vowels (a,e,i,o,u) in a string.',
+                      template: `def solution(s):\n    return sum(1 for c in s.lower() if c in 'aeiou')`,
+                      tests: [{args:['hello'], expected:2},{args:['aEiOu'], expected:5},{args:['xyz'], expected:0}]
+                    },
+                    { title: `${capitalize(difficulty)} Character Frequency`,
+                      desc: 'Find the most frequent character in a string.',
+                      template: `def solution(s):\n    return max(s, key=s.count) if s else ''`,
+                      tests: [{args:['aabbbc'], expected:'b'},{args:['aaa'], expected:'a'}]
+                    },
+                    { title: `${capitalize(difficulty)} Uppercase Conversion`,
+                      desc: 'Convert all characters to uppercase.',
+                      template: `def solution(s):\n    return s.upper()`,
+                      tests: [{args:['hello'], expected:'HELLO'},{args:['PyThOn'], expected:'PYTHON'}]
+                    },
+                    { title: `${capitalize(difficulty)} Lowercase Conversion`,
+                      desc: 'Convert all characters to lowercase.',
+                      template: `def solution(s):\n    return s.lower()`,
+                      tests: [{args:['HELLO'], expected:'hello'},{args:['PyThOn'], expected:'python'}]
+                    },
+                    { title: `${capitalize(difficulty)} Character Count`,
+                      desc: 'Count occurrences of a specific character in a string.',
+                      template: `def solution(s, char):\n    return s.count(char)`,
+                      tests: [{args:['aabbcc', 'a'], expected:2},{args:['hello', 'l'], expected:2},{args:['xyz', 'q'], expected:0}]
+                    },
+                    { title: `${capitalize(difficulty)} String Length`,
+                      desc: 'Return the length of a string.',
+                      template: `def solution(s):\n    return len(s)`,
+                      tests: [{args:['hello'], expected:5},{args:['a'], expected:1},{args:[''], expected:0}]
+                    },
+                    { title: `${capitalize(difficulty)} String Concatenation`,
+                      desc: 'Concatenate two strings.',
+                      template: `def solution(s1, s2):\n    return s1 + s2`,
+                      tests: [{args:['hello', ' world'], expected:'hello world'},{args:['python', '3'], expected:'python3'}]
+                    },
+                    { title: `${capitalize(difficulty)} Word Count`,
+                      desc: 'Count the number of words in a string.',
+                      template: `def solution(s):\n    return len(s.split())`,
+                      tests: [{args:['hello world'], expected:2},{args:['one two three'], expected:3},{args:['single'], expected:1}]
+                    },
+                    { title: `${capitalize(difficulty)} Remove Spaces`,
+                      desc: 'Remove all spaces from a string.',
+                      template: `def solution(s):\n    return s.replace(' ', '')`,
+                      tests: [{args:['hello world'], expected:'helloworld'},{args:['a b c'], expected:'abc'}]
+                    },
+                    { title: `${capitalize(difficulty)} String Contains`,
+                      desc: 'Check if a string contains a substring.',
+                      template: `def solution(s, sub):\n    return sub in s`,
+                      tests: [{args:['hello world', 'world'], expected:true},{args:['python', 'java'], expected:false}]
+                    }
+                ];
+                const chosen = variants[Math.floor(Math.random() * variants.length)];
+                title = chosen.title; desc = chosen.desc; template = chosen.template; tests = chosen.tests;
+            } else if(topic==='fib'){
+                const variants = [
+                    { title: `${capitalize(difficulty)} Nth Fibonacci`,
+                      desc: 'Return the Nth Fibonacci number (0-indexed). Sequence: 0, 1, 1, 2, 3, 5, 8...',
+                      template: `def solution(n):\n    a,b=0,1\n    for _ in range(n):\n        a,b=b,a+b\n    return a`,
+                      tests: [{args:[0], expected:0},{args:[5], expected:5},{args:[7], expected:13}]
+                    },
+                    { title: `${capitalize(difficulty)} Fibonacci Sum`,
+                      desc: 'Return the sum of the first N Fibonacci numbers.',
+                      template: `def solution(n):\n    a,b,s=0,1,0\n    for _ in range(n):\n        s+=a\n        a,b=b,a+b\n    return s`,
+                      tests: [{args:[3], expected:2},{args:[5], expected:10},{args:[1], expected:0}]
+                    },
+                    { title: `${capitalize(difficulty)} Fibonacci List`,
+                      desc: 'Return a list of the first N Fibonacci numbers.',
+                      template: `def solution(n):\n    fib=[]\n    a,b=0,1\n    for _ in range(n):\n        fib.append(a)\n        a,b=b,a+b\n    return fib`,
+                      tests: [{args:[5], expected:[0,1,1,2,3]},{args:[3], expected:[0,1,1]}]
+                    },
+                    { title: `${capitalize(difficulty)} Is Fibonacci`,
+                      desc: 'Check if a number is in the Fibonacci sequence.',
+                      template: `def solution(n):\n    a,b=0,1\n    while a<n:\n        a,b=b,a+b\n    return a==n`,
+                      tests: [{args:[8], expected:true},{args:[7], expected:false},{args:[0], expected:true}]
+                    },
+                    { title: `${capitalize(difficulty)} Fibonacci Even Numbers`,
+                      desc: 'Count even Fibonacci numbers up to N.',
+                      template: `def solution(n):\n    a,b,c=0,1,0\n    while a<=n:\n        if a%2==0: c+=1\n        a,b=b,a+b\n    return c`,
+                      tests: [{args:[10], expected:3},{args:[100], expected:4}]
+                    }
+                ];
+                const chosen = variants[Math.floor(Math.random() * variants.length)];
+                title = chosen.title; desc = chosen.desc; template = chosen.template; tests = chosen.tests;
+            } else if(topic==='sort'){
+                const variants = [
+                    { title: `${capitalize(difficulty)} Sort Numbers`,
+                      desc: 'Return a sorted list of numbers in ascending order.',
+                      template: `def solution(arr):\n    return sorted(arr)`,
+                      tests: [{args:[[3,1,2]], expected:[1,2,3]},{args:[[5,2,9,1]], expected:[1,2,5,9]},{args:[[1]], expected:[1]}]
+                    },
+                    { title: `${capitalize(difficulty)} Sort Descending`,
+                      desc: 'Return list sorted in descending order (highest first).',
+                      template: `def solution(arr):\n    return sorted(arr,reverse=True)`,
+                      tests: [{args:[[1,3,2]], expected:[3,2,1]},{args:[[5,2,9]], expected:[9,5,2]}]
+                    },
+                    { title: `${capitalize(difficulty)} Remove Duplicates and Sort`,
+                      desc: 'Return unique elements sorted in ascending order.',
+                      template: `def solution(arr):\n    return sorted(set(arr))`,
+                      tests: [{args:[[3,1,3,2,1]], expected:[1,2,3]},{args:[[5,5,5]], expected:[5]}]
+                    },
+                    { title: `${capitalize(difficulty)} Sort by Absolute Value`,
+                      desc: 'Sort numbers by their absolute value (distance from 0).',
+                      template: `def solution(arr):\n    return sorted(arr, key=abs)`,
+                      tests: [{args:[[-3, 1, -2, 4]], expected:[1, -2, -3, 4]},{args:[[-5, 2]], expected:[2, -5]}]
+                    },
+                    { title: `${capitalize(difficulty)} Sort Strings by Length`,
+                      desc: 'Sort strings by their length in ascending order.',
+                      template: `def solution(arr):\n    return sorted(arr, key=len)`,
+                      tests: [{args:[['apple', 'a', 'banana']], expected:['a', 'apple', 'banana']}]
+                    },
+                    { title: `${capitalize(difficulty)} Merge Two Sorted Arrays`,
+                      desc: 'Merge two sorted arrays into one sorted array.',
+                      template: `def solution(a1, a2):\n    return sorted(a1+a2)`,
+                      tests: [{args:[[1,3,5], [2,4,6]], expected:[1,2,3,4,5,6]}]
+                    },
+                    { title: `${capitalize(difficulty)} Bubble Sort`,
+                      desc: 'Sort using bubble sort algorithm.',
+                      template: `def solution(arr):\n    arr=arr[:]\n    for i in range(len(arr)):\n        for j in range(len(arr)-1-i):\n            if arr[j]>arr[j+1]: arr[j],arr[j+1]=arr[j+1],arr[j]\n    return arr`,
+                      tests: [{args:[[3,1,2]], expected:[1,2,3]}]
+                    },
+                    { title: `${capitalize(difficulty)} Count Inversions`,
+                      desc: 'Count pairs where a larger element comes before a smaller one.',
+                      template: `def solution(arr):\n    count=0\n    for i in range(len(arr)):\n        for j in range(i+1,len(arr)):\n            if arr[i]>arr[j]: count+=1\n    return count`,
+                      tests: [{args:[[3,1,2]], expected:2},{args:[[1,2,3]], expected:0}]
+                    }
+                ];
+                const chosen = variants[Math.floor(Math.random() * variants.length)];
+                title = chosen.title; desc = chosen.desc; template = chosen.template; tests = chosen.tests;
+            } else if(topic==='prime'){
+                const variants = [
+                    { title: `${capitalize(difficulty)} Prime Check`,
+                      desc: 'Return true if the number is prime (only divisible by 1 and itself).',
+                      template: `def solution(n):\n    if n<2: return False\n    i=2\n    while i*i<=n:\n        if n%i==0: return False\n        i+=1\n    return True`,
+                      tests: [{args:[2], expected:true},{args:[15], expected:false},{args:[17], expected:true}]
+                    },
+                    { title: `${capitalize(difficulty)} Count Primes`,
+                      desc: 'Count how many prime numbers exist from 2 to N (inclusive).',
+                      template: `def solution(n):\n    count=0\n    for i in range(2,n+1):\n        is_prime=True\n        for j in range(2,int(i**0.5)+1):\n            if i%j==0: is_prime=False\n        if is_prime: count+=1\n    return count`,
+                      tests: [{args:[10], expected:4},{args:[2], expected:0},{args:[20], expected:8}]
+                    },
+                    { title: `${capitalize(difficulty)} Factors`,
+                      desc: 'Return all factors (divisors) of a number.',
+                      template: `def solution(n):\n    return [i for i in range(1,n+1) if n%i==0]`,
+                      tests: [{args:[12], expected:[1,2,3,4,6,12]},{args:[7], expected:[1,7]}]
+                    },
+                    { title: `${capitalize(difficulty)} Prime Factors`,
+                      desc: 'Return the prime factorization of a number.',
+                      template: `def solution(n):\n    factors=[]\n    d=2\n    while d*d<=n:\n        while n%d==0: factors.append(d); n//=d\n        d+=1\n    if n>1: factors.append(n)\n    return factors`,
+                      tests: [{args:[12], expected:[2,2,3]},{args:[15], expected:[3,5]}]
+                    },
+                    { title: `${capitalize(difficulty)} Next Prime`,
+                      desc: 'Return the next prime number after N.',
+                      template: `def solution(n):\n    candidate=n+1\n    while True:\n        is_prime=True\n        for i in range(2,int(candidate**0.5)+1):\n            if candidate%i==0: is_prime=False; break\n        if is_prime: return candidate\n        candidate+=1`,
+                      tests: [{args:[10], expected:11},{args:[13], expected:17}]
+                    },
+                    { title: `${capitalize(difficulty)} Twin Primes`,
+                      desc: 'Check if N and N+2 are both prime (twin primes).',
+                      template: `def solution(n):\n    def is_prime(x):\n        if x<2: return False\n        for i in range(2,int(x**0.5)+1):\n            if x%i==0: return False\n        return True\n    return is_prime(n) and is_prime(n+2)`,
+                      tests: [{args:[5], expected:true},{args:[11], expected:true},{args:[9], expected:false}]
+                    },
+                    { title: `${capitalize(difficulty)} GCD`,
+                      desc: 'Find the greatest common divisor of two numbers.',
+                      template: `def solution(a, b):\n    while b: a, b = b, a % b\n    return a`,
+                      tests: [{args:[12, 8], expected:4},{args:[17, 19], expected:1}]
+                    },
+                    { title: `${capitalize(difficulty)} LCM`,
+                      desc: 'Find the least common multiple of two numbers.',
+                      template: `def solution(a, b):\n    def gcd(x,y):\n        while y: x,y=y,x%y\n        return x\n    return (a*b)//gcd(a,b)`,
+                      tests: [{args:[4, 6], expected:12},{args:[3, 5], expected:15}]
+                    }
+                ];
+                const chosen = variants[Math.floor(Math.random() * variants.length)];
+                title = chosen.title; desc = chosen.desc; template = chosen.template; tests = chosen.tests;
+            } else { // array default
+                const variants = [
+                    { title: `${capitalize(difficulty)} Sum Two Numbers`,
+                      desc: 'Return the sum of two numbers a + b.',
+                      template: `def solution(a,b):\n    return a+b`,
+                      tests: [{args:[1,2], expected:3},{args:[-1,5], expected:4},{args:[100,200], expected:300}]
+                    },
+                    { title: `${capitalize(difficulty)} Array Sum`,
+                      desc: 'Return the sum of all elements in the array.',
+                      template: `def solution(arr):\n    return sum(arr)`,
+                      tests: [{args:[[1,2,3]], expected:6},{args:[[10,-5,3]], expected:8},{args:[[0]], expected:0}]
+                    },
+                    { title: `${capitalize(difficulty)} Max Element`,
+                      desc: 'Return the maximum element in the array.',
+                      template: `def solution(arr):\n    return max(arr)`,
+                      tests: [{args:[[3,1,9,2]], expected:9},{args:[[100,50]], expected:100},{args:[[-5,-1,-10]], expected:-1}]
+                    },
+                    { title: `${capitalize(difficulty)} Min Element`,
+                      desc: 'Return the minimum element in the array.',
+                      template: `def solution(arr):\n    return min(arr)`,
+                      tests: [{args:[[3,1,9,2]], expected:1},{args:[[100,50]], expected:50}]
+                    },
+                    { title: `${capitalize(difficulty)} Average of Array`,
+                      desc: 'Return the average (mean) of all elements.',
+                      template: `def solution(arr):\n    return sum(arr) / len(arr) if arr else 0`,
+                      tests: [{args:[[2,4,6]], expected:4},{args:[[10]], expected:10}]
+                    },
+                    { title: `${capitalize(difficulty)} Duplicate Count`,
+                      desc: 'Count occurrences of the most frequent element.',
+                      template: `def solution(arr):\n    return max([arr.count(x) for x in set(arr)]) if arr else 0`,
+                      tests: [{args:[[1,1,2,2,2,3]], expected:3},{args:[[5,5,5]], expected:3},{args:[[1,2,3]], expected:1}]
+                    },
+                    { title: `${capitalize(difficulty)} Find Element`,
+                      desc: 'Find the index of an element in an array.',
+                      template: `def solution(arr, target):\n    return arr.index(target) if target in arr else -1`,
+                      tests: [{args:[[1,2,3,4], 3], expected:2},{args:[[10,20], 5], expected:-1}]
+                    },
+                    { title: `${capitalize(difficulty)} Array Slice`,
+                      desc: 'Return elements from index start to end (exclusive).',
+                      template: `def solution(arr, start, end):\n    return arr[start:end]`,
+                      tests: [{args:[[1,2,3,4,5], 1, 4], expected:[2,3,4]},{args:[[10,20,30], 0, 2], expected:[10,20]}]
+                    },
+                    { title: `${capitalize(difficulty)} Reverse Array`,
+                      desc: 'Return the array in reverse order.',
+                      template: `def solution(arr):\n    return arr[::-1]`,
+                      tests: [{args:[[1,2,3]], expected:[3,2,1]},{args:[[5]], expected:[5]}]
+                    },
+                    { title: `${capitalize(difficulty)} Count Occurrences`,
+                      desc: 'Count how many times an element appears.',
+                      template: `def solution(arr, target):\n    return arr.count(target)`,
+                      tests: [{args:[[1,2,2,3,2], 2], expected:3},{args:[[5,5,5], 5], expected:3}]
+                    },
+                    { title: `${capitalize(difficulty)} All Unique`,
+                      desc: 'Check if all elements are unique (no duplicates).',
+                      template: `def solution(arr):\n    return len(arr)==len(set(arr))`,
+                      tests: [{args:[[1,2,3]], expected:true},{args:[[1,2,1]], expected:false}]
+                    },
+                    { title: `${capitalize(difficulty)} Array Product`,
+                      desc: 'Return the product of all elements.',
+                      template: `def solution(arr):\n    result=1\n    for x in arr: result*=x\n    return result`,
+                      tests: [{args:[[1,2,3]], expected:6},{args:[[5,2]], expected:10}]
+                    },
+                    { title: `${capitalize(difficulty)} Array Contains Duplicates`,
+                      desc: 'Check if array contains any duplicate elements.',
+                      template: `def solution(arr):\n    return len(arr) != len(set(arr))`,
+                      tests: [{args:[[1,2,3,1]], expected:true},{args:[[1,2,3]], expected:false}]
+                    },
+                    { title: `${capitalize(difficulty)} Filter Even Numbers`,
+                      desc: 'Return only even numbers from the array.',
+                      template: `def solution(arr):\n    return [x for x in arr if x%2==0]`,
+                      tests: [{args:[[1,2,3,4,5]], expected:[2,4]},{args:[[2,4,6]], expected:[2,4,6]}]
+                    },
+                    { title: `${capitalize(difficulty)} Array Power`,
+                      desc: 'Return array elements raised to power k.',
+                      template: `def solution(arr, k):\n    return [x**k for x in arr]`,
+                      tests: [{args:[[1,2,3], 2], expected:[1,4,9]},{args:[[2,3], 3], expected:[8,27]}]
+                    },
+                    { title: `${capitalize(difficulty)} Median`,
+                      desc: 'Return the median (middle value) of sorted array.',
+                      template: `def solution(arr):\n    s=sorted(arr)\n    n=len(s)\n    return s[n//2] if n%2==1 else (s[n//2-1]+s[n//2])/2`,
+                      tests: [{args:[[1,2,3]], expected:2},{args:[[1,2]], expected:1.5}]
+                    }
+                ];
+                const chosen = variants[Math.floor(Math.random() * variants.length)];
+                title = chosen.title; desc = chosen.desc; template = chosen.template; tests = chosen.tests;
+            }
+
+            // adjust difficulty: for advanced, add larger/harder tests
+            if(difficulty==='advanced'){
+                if(topic==='sort') tests.push({args:[[10,9,8,7,6,5,4,3,2,1]], expected:[1,2,3,4,5,6,7,8,9,10]});
+                else if(topic==='array') tests.push({args:[[1,1,1,2,2,3,3,3,3]], expected:4});
+                else if(topic==='string') tests.push({args:['A man a plan a canal Panama'], expected:false});
+                else if(topic==='prime') tests.push({args:[100], expected:25});
+                else if(topic==='fib') tests.push({args:[10], expected:55});
+            }
+
+            return { id, title, desc, template, tests };
+        }
+
+        function capitalize(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+    </script>
+
+<!-- Boredom Slide-in Popup (ORANGE THEME) -->
+<div id="boredPopup" style="
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    width: 360px;
+
+    /* 🟠 ORANGE GLASS BACKGROUND */
+    background: rgba(154, 52, 18, 0.35);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    color: #ffedd5;
+
+    padding: 26px 28px;
+    border-radius: 16px;
+    box-shadow:
+        0 18px 50px rgba(0, 0, 0, 0.45),
+        0 0 30px rgba(249, 115, 22, 0.45);
+
+    border: 1px solid rgba(253, 186, 116, 0.35);
+
+    font-size: 1.05rem;
+    z-index: 9999;
+    transform: translateX(120%);
+    opacity: 0;
+    transition: transform 0.6s ease, opacity 0.6s ease;
+">
+    <p style="
+        margin-bottom: 22px;
+        line-height: 1.5;
+        color: #fed7aa;
+    ">
+        😴 Feel bored? <br>
+        <span style="color:#fdba74; font-size:0.95rem;">
+            Here’s something cool for you.
+        </span>
+    </p>
+
+    <div style="display: flex; gap: 14px;">
+        <button onclick="handleLetsGo()" style="
+            flex: 1;
+            padding: 12px 14px;
+            font-size: 0.95rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            color: #fff7ed;
+            box-shadow: 0 0 16px rgba(249,115,22,0.6);
+        ">
+            Let’s Go
+        </button>
+
+        <button onclick="handleNoThanks()" style="
+            flex: 1;
+            padding: 12px 14px;
+            font-size: 0.95rem;
+            border-radius: 10px;
+            cursor: pointer;
+            background: rgba(255,255,255,0.05);
+            color: #fed7aa;
+            border: 1px solid rgba(253, 186, 116, 0.4);
+        ">
+            No Thanks
+        </button>
+    </div>
+</div>
+
+<script>
+(function () {
+    const POPUP_INTERVAL = 10 * 1000;
+    const popup = document.getElementById("boredPopup");
+    let popupVisible = false;
+
+    /* ---------- AUDIO SYSTEM ---------- */
+    let audioCtx = null;
+    let audioUnlocked = false;
+
+    function unlockAudio() {
+        if (audioUnlocked) return;
+
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        audioCtx.resume().then(() => {
+            audioUnlocked = true;
+        });
+
+        document.removeEventListener("click", unlockAudio);
+        document.removeEventListener("keydown", unlockAudio);
+    }
+
+    document.addEventListener("click", unlockAudio);
+    document.addEventListener("keydown", unlockAudio);
+
+    /* ❌ SHARP CLICK (No Thanks) */
+    function playClickSound() {
+        if (!audioUnlocked) return;
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = "square";
+        osc.frequency.value = 900;
+        gain.gain.value = 0.06;
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.06);
+    }
+
+    /* ✅ SOFT TAP / CONFIRM (Let’s Go) */
+    function playConfirmSound() {
+        if (!audioUnlocked) return;
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(420, audioCtx.currentTime);
+
+        gain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+        gain.gain.linearRampToValueAtTime(
+            0.045,
+            audioCtx.currentTime + 0.01
+        );
+        gain.gain.exponentialRampToValueAtTime(
+            0.0001,
+            audioCtx.currentTime + 0.12
+        );
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.13);
+    }
+
+    /* 🌬️ POPUP APPEAR WHOOSH */
+    function playAppearSound() {
+        if (!audioUnlocked) return;
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(320, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(
+            620,
+            audioCtx.currentTime + 0.18
+        );
+
+        gain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(
+            0.035,
+            audioCtx.currentTime + 0.05
+        );
+        gain.gain.exponentialRampToValueAtTime(
+            0.0001,
+            audioCtx.currentTime + 0.28
+        );
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.3);
+    }
+
+    /* ---------- POPUP LOGIC ---------- */
+    function showPopup() {
+        if (popupVisible) return;
+
+        popup.style.transform = "translateX(0)";
+        popup.style.opacity = "1";
+        popupVisible = true;
+
+        playAppearSound();
+    }
+
+    function hidePopup() {
+        popup.style.transform = "translateX(120%)";
+        popup.style.opacity = "0";
+        popupVisible = false;
+    }
+
+    /* ---------- BUTTON HANDLERS ---------- */
+    window.handleNoThanks = function () {
+        playClickSound();
+        hidePopup();
+    };
+
+    window.handleLetsGo = function () {
+        playConfirmSound();
+        setTimeout(() => {
+            window.location.href = "games.html";
+        }, 140);
+    };
+
+    setTimeout(showPopup, 1500);
+    setInterval(showPopup, POPUP_INTERVAL);
+})();
+</script>
+
+</body>
+</html>

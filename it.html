@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enlist - Rebel Tech Alliance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Orbitron:wght@400;700;900&family=Audiowide&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="it.css">
+    <style>
+        .panel-grid { max-width:1100px; margin:40px auto; display:grid; grid-template-columns: 1fr; gap:22px; padding:0 20px; }
+        .panel { background: rgba(0,0,0,0.36); padding:18px; border-radius:12px; border:1px solid rgba(255,255,255,0.04); }
+        .snippet-title { font-weight:700; display:flex; justify-content:space-between; align-items:center; gap:10px; }
+        .snippet-code { background:rgba(0,0,0,0.45); padding:10px; border-radius:8px; color:#fff; white-space:pre-wrap; margin-top:8px; }
+        .small { font-size:0.9rem; color:#ccc }
+        .controls { display:flex; gap:8px; margin-bottom:10px }
+        input, select, textarea { background:rgba(255,255,255,0.02); color:#fff }
+        /* Green button style for this page */
+        .panel .btn {
+            background: linear-gradient(135deg, #6bd36b, #2a9b3b);
+            border: 1px solid rgba(39,174,96,0.65);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(39,174,96,0.12), 0 0 60px rgba(46,204,113,0.06);
+            transition: transform 0.14s ease, box-shadow 0.14s ease, filter 0.14s ease;
+        }
+        .panel .btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 18px 80px rgba(39,174,96,0.28), 0 0 180px rgba(46,204,113,0.18);
+            filter: drop-shadow(0 0 12px rgba(46,204,113,0.28));
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">✦ Nokia Union</a>
+        <ul class="nav-links">
+            <li><a href="math.html">Math Utilities</a></li>
+            <li><a href="it.html">IT Utilities</a></li>
+            <li><a href="About.html">About</a></li>
+            <li><a href="coding.html">Coding Problems</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>IT UTILITIES</h1>
+            <p class="subtitle">Practical snippets and developer tools — everything runs in your browser</p>
+            <p class="description">Direct access to code snippets, quick utilities and testers. No sign-up, no external services required for these features.</p>
+        </div>
+    </section>
+
+    <div class="panel-grid">
+        <div class="panel" id="snippetsPanel">
+            <h2>Code Snippet Library</h2>
+            <div class="controls">
+                <input id="searchBox" placeholder="Search snippets (eg. fib, reverse, regex)" style="flex:1;padding:8px;border-radius:6px;border:none;" oninput="renderSnippets()">
+                <select id="catFilter" style="padding:8px;border-radius:6px;border:none;" onchange="renderSnippets()">
+                    <option value="all">All</option>
+                    <option value="python">Python</option>
+                    <option value="js">JavaScript</option>
+                    <option value="shell">Shell</option>
+                </select>
+            </div>
+            <div id="snippetList" style="max-height:520px;overflow:auto"></div>
+        </div>
+    </div>
+
+    <!-- Developer Tools Section (separate) -->
+    <section style="max-width:1100px;margin:18px auto;padding:0 20px;">
+        <div class="panel">
+            <h2>Developer Tools</h2>
+            <p class="small">Utilities below are grouped for quick developer tasks.</p>
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:14px">
+                <!-- Left column: existing tools (kept) -->
+                <div style="display:flex;flex-direction:column;gap:10px">
+                    <!-- Prime Checker -->
+                    <div style="background:rgba(255,255,255,0.02);padding:10px;border-radius:8px">
+                        <strong>Prime Checker</strong>
+                        <input id="primeN" type="number" placeholder="Enter integer" style="width:100%;padding:8px;border-radius:6px;border:none;margin-top:8px">
+                        <div style="display:flex;gap:8px;margin-top:8px"><button class="btn" onclick="checkPrime()">Check</button><button class="btn" onclick="document.getElementById('primeOut').textContent='';document.getElementById('primeN').value=''">Clear</button></div>
+                        <pre id="primeOut" style="margin-top:8px;background:rgba(0,0,0,0.4);padding:8px;border-radius:6px;color:#ffd"></pre>
+                    </div>
+
+                    <!-- HCF -->
+                    <div style="background:rgba(255,255,255,0.02);padding:10px;border-radius:8px">
+                        <strong>HCF Calculator</strong>
+                        <div style="display:flex;gap:8px;margin-top:8px">
+                            <input id="hcfA" type="number" placeholder="a" style="flex:1;padding:8px;border-radius:6px;border:none">
+                            <input id="hcfB" type="number" placeholder="b" style="flex:1;padding:8px;border-radius:6px;border:none">
+                        </div>
+                        <div style="display:flex;gap:8px;margin-top:8px"><button class="btn" onclick="calcHcf()">Compute</button><button class="btn" onclick="document.getElementById('hcfOut').textContent='';document.getElementById('hcfA').value='';document.getElementById('hcfB').value=''">Clear</button></div>
+                        <pre id="hcfOut" style="margin-top:8px;background:rgba(0,0,0,0.4);padding:8px;border-radius:6px;color:#ffd"></pre>
+                    </div>
+
+                    <!-- Base Converter (kept) -->
+                    <div style="background:rgba(255,255,255,0.02);padding:10px;border-radius:8px">
+                        <strong>Base Converter</strong>
+                        <input id="baseVal" placeholder="Value" style="width:100%;padding:8px;border-radius:6px;border:none;margin-top:8px">
+                        <div style="display:flex;gap:8px;margin-top:8px"><input id="fromBase" placeholder="From base" style="flex:1;padding:8px;border-radius:6px;border:none"><input id="toBase" placeholder="To base" style="flex:1;padding:8px;border-radius:6px;border:none"></div>
+                        <div style="display:flex;gap:8px;margin-top:8px"><button class="btn" onclick="convertBase()">Convert</button><button class="btn" onclick="document.getElementById('baseOut').textContent='';document.getElementById('baseVal').value='';document.getElementById('fromBase').value='';document.getElementById('toBase').value=''">Clear</button></div>
+                        <pre id="baseOut" style="margin-top:8px;background:rgba(0,0,0,0.4);padding:8px;border-radius:6px;color:#ffd"></pre>
+                    </div>
+
+                    <!-- Random Hex Color Generator -->
+                    <div style="background:rgba(255,255,255,0.02);padding:10px;border-radius:8px">
+                        <strong>Random Hex Color</strong>
+                        <div style="display:flex;gap:8px;margin-top:8px"><button class="btn" onclick="genHex()">Generate</button><button class="btn" onclick="document.getElementById('hexOut').textContent=''">Clear</button></div>
+                        <pre id="hexOut" style="margin-top:8px;background:rgba(0,0,0,0.4);padding:8px;border-radius:6px;color:#ffd"></pre>
+                    </div>
+
+                    <!-- RGB <-> HEX Converter -->
+                    <div style="background:rgba(255,255,255,0.02);padding:10px;border-radius:8px">
+                        <strong>RGB ↔ HEX</strong>
+                        <input id="rgbIn" placeholder="e.g. 34,139,34" style="width:100%;padding:8px;border-radius:6px;border:none;margin-top:8px">
+                        <input id="hexIn" placeholder="#rrggbb" style="width:100%;padding:8px;border-radius:6px;border:none;margin-top:8px">
+                        <div style="display:flex;gap:8px;margin-top:8px"><button class="btn" onclick="rgbToHex()">RGB→HEX</button><button class="btn" onclick="hexToRgb()">HEX→RGB</button></div>
+                        <pre id="rgbhexOut" style="margin-top:8px;background:rgba(0,0,0,0.4);padding:8px;border-radius:6px;color:#ffd"></pre>
+                    </div>
+                </div>
+
+                <!-- Right column: 7 simpler developer tools -->
+                <div style="display:flex;flex-direction:column;gap:10px">
+                    <!-- Text Case Converter -->
+                    <div style="background:rgba(255,255,255,0.02);padding:10px;border-radius:8px">
+                        <strong>Text Case Converter</strong>
+                        <textarea id="caseIn" placeholder="Paste text" style="width:100%;padding:8px;border-radius:6px;border:none;margin-top:8px;height:72px"></textarea>
+                        <div style="display:flex;gap:8px;margin-top:8px"><button class="btn" onclick="convertCase('upper')">UPPER</button><button class="btn" onclick="convertCase('lower')">lower</button><button class="btn" onclick="convertCase('title')">Title</button></div>
+                        <pre id="caseOut" style="margin-top:8px;background:rgba(0,0,0,0.4);padding:8px;border-radius:6px;color:#ffd"></pre>
+                    </div>
+
+                    <!-- Base64 Encode/Decode -->
+                    <div style="background:rgba(255,255,255,0.02);padding:10px;border-radius:8px">
+                        <strong>Base64 Encode / Decode</strong>
+                        <input id="b64In" placeholder="Text" style="width:100%;padding:8px;border-radius:6px;border:none;margin-top:8px">
+                        <div style="display:flex;gap:8px;margin-top:8px"><button class="btn" onclick="b64Encode()">Encode</button><button class="btn" onclick="b64Decode()">Decode</button></div>
+                        <pre id="b64Out" style="margin-top:8px;background:rgba(0,0,0,0.4);padding:8px;border-radius:6px;color:#ffd;word-break:break-word"></pre>
+                    </div>
+
+                    <!-- Lorem Ipsum Generator -->
+                    <div style="background:rgba(255,255,255,0.02);padding:10px;border-radius:8px">
+                        <strong>Lorem Ipsum</strong>
+                        <input id="loremN" type="number" placeholder="Words (1-200)" style="width:100%;padding:8px;border-radius:6px;border:none;margin-top:8px">
+                        <div style="display:flex;gap:8px;margin-top:8px"><button class="btn" onclick="genLorem()">Generate</button></div>
+                        <pre id="loremOut" style="margin-top:8px;background:rgba(0,0,0,0.4);padding:8px;border-radius:6px;color:#ffd;white-space:pre-wrap"></pre>
+                    </div>
+
+                    <!-- Trim / Collapse Whitespace -->
+                    <div style="background:rgba(255,255,255,0.02);padding:10px;border-radius:8px">
+                        <strong>Trim / Collapse</strong>
+                        <textarea id="trimIn" placeholder="Paste text" style="width:100%;padding:8px;border-radius:6px;border:none;margin-top:8px;height:72px"></textarea>
+                        <div style="display:flex;gap:8px;margin-top:8px"><button class="btn" onclick="collapseWhitespace()">Collapse</button><button class="btn" onclick="document.getElementById('trimIn').value='';document.getElementById('trimOut').textContent=''">Clear</button></div>
+                        <pre id="trimOut" style="margin-top:8px;background:rgba(0,0,0,0.4);padding:8px;border-radius:6px;color:#ffd;white-space:pre-wrap"></pre>
+                    </div>
+
+                    <!-- Reverse String -->
+                    <div style="background:rgba(255,255,255,0.02);padding:10px;border-radius:8px">
+                        <strong>Reverse String</strong>
+                        <textarea id="revIn" placeholder="Enter text" style="width:100%;padding:8px;border-radius:6px;border:none;margin-top:8px;height:72px"></textarea>
+                        <div style="display:flex;gap:8px;margin-top:8px"><button class="btn" onclick="reverseString()">Reverse</button><button class="btn" onclick="document.getElementById('revIn').value='';document.getElementById('revOut').textContent=''">Clear</button></div>
+                        <pre id="revOut" style="margin-top:8px;background:rgba(0,0,0,0.4);padding:8px;border-radius:6px;color:#ffd;white-space:pre-wrap"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Articles Section -->
+    <section class="articles-section" id="articles">
+        <div class="articles-container">
+            <h2 class="articles-title">[ ] Mathematics & History</h2>
+            <p class="articles-subtitle">Explore fascinating articles about mathematics and its rich history</p>
+            
+            <div class="articles-grid">
+                <!-- Article 1 -->
+                <div class="article-card" onclick="openArticle(1)">
+                    <div class="article-header">
+                        <span class="article-badge">HISTORY</span>
+                        <span class="article-date">Ancient Times</span>
+                    </div>
+                    <h3>The Origins of Mathematics</h3>
+                    <p>Discover how mathematics began with ancient civilizations and basic counting systems.</p>
+                    <div class="article-footer">
+                        <span class="read-time">5 min read</span>
+                        <span class="expand-icon">→</span>
+                    </div>
+                </div>
+
+                <!-- Article 2 -->
+                <div class="article-card" onclick="openArticle(2)">
+                    <div class="article-header">
+                        <span class="article-badge">GREEK</span>
+                        <span class="article-date">300 BC</span>
+                    </div>
+                    <h3>Euclid & Euclidean Geometry</h3>
+                    <p>Learn about the father of geometry and how he revolutionized mathematical thinking.</p>
+                    <div class="article-footer">
+                        <span class="read-time">6 min read</span>
+                        <span class="expand-icon">→</span>
+                    </div>
+                </div>
+
+                <!-- Article 3 -->
+                <div class="article-card" onclick="openArticle(3)">
+                    <div class="article-header">
+                        <span class="article-badge">ALGEBRA</span>
+                        <span class="article-date">800 AD</span>
+                    </div>
+                    <h3>The Birth of Algebra</h3>
+                    <p>Explore how Persian mathematician Al-Khwarizmi invented algebra and changed mathematics forever.</p>
+                    <div class="article-footer">
+                        <span class="read-time">7 min read</span>
+                        <span class="expand-icon">→</span>
+                    </div>
+                </div>
+
+                <!-- Article 4 -->
+                <div class="article-card" onclick="openArticle(4)">
+                    <div class="article-header">
+                        <span class="article-badge">FIBONACCI</span>
+                        <span class="article-date">1202 AD</span>
+                    </div>
+                    <h3>Fibonacci Sequence & Nature</h3>
+                    <p>Uncover the mysterious Fibonacci sequence and its appearance in nature and art.</p>
+                    <div class="article-footer">
+                        <span class="read-time">8 min read</span>
+                        <span class="expand-icon">→</span>
+                    </div>
+                </div>
+
+                <!-- Article 5 -->
+                <div class="article-card" onclick="openArticle(5)">
+                    <div class="article-header">
+                        <span class="article-badge">CALCULUS</span>
+                        <span class="article-date">1665</span>
+                    </div>
+                    <h3>Newton & Leibniz: Inventing Calculus</h3>
+                    <p>The story of how calculus was invented independently by two mathematical geniuses.</p>
+                    <div class="article-footer">
+                        <span class="read-time">10 min read</span>
+                        <span class="expand-icon">→</span>
+                    </div>
+                </div>
+
+                <!-- Article 6 -->
+                <div class="article-card" onclick="openArticle(6)">
+                    <div class="article-header">
+                        <span class="article-badge">PROBABILITY</span>
+                        <span class="article-date">1654</span>
+                    </div>
+                    <h3>Pascal & Fermat: Birth of Probability</h3>
+                    <p>How two mathematicians created probability theory while solving gambling problems.</p>
+                    <div class="article-footer">
+                        <span class="read-time">7 min read</span>
+                        <span class="expand-icon">→</span>
+                    </div>
+                </div>
+
+                <!-- Article 7 -->
+                <div class="article-card" onclick="openArticle(7)">
+                    <div class="article-header">
+                        <span class="article-badge">GEOMETRY</span>
+                        <span class="article-date">1800s</span>
+                    </div>
+                    <h3>Non-Euclidean Geometry Revolution</h3>
+                    <p>Discover how mathematicians challenged Euclid's postulates and created new geometries.</p>
+                    <div class="article-footer">
+                        <span class="read-time">9 min read</span>
+                        <span class="expand-icon">→</span>
+                    </div>
+                </div>
+
+                <!-- Article 8 -->
+                <div class="article-card" onclick="openArticle(8)">
+                    <div class="article-header">
+                        <span class="article-badge">PRIME NUMBERS</span>
+                        <span class="article-date">Ancient</span>
+                    </div>
+                    <h3>The Mystery of Prime Numbers</h3>
+                    <p>Explore the unsolved mysteries and patterns of prime numbers throughout history.</p>
+                    <div class="article-footer">
+                        <span class="read-time">8 min read</span>
+                        <span class="expand-icon">→</span>
+                    </div>
+                </div>
+
+                <!-- Article 9 -->
+                <div class="article-card" onclick="openArticle(9)">
+                    <div class="article-header">
+                        <span class="article-badge">MODERN</span>
+                        <span class="article-date">1900s</span>
+                    </div>
+                    <h3>20th Century: Mathematics Explosion</h3>
+                    <p>How mathematics expanded into new fields like topology, set theory, and abstract algebra.</p>
+                    <div class="article-footer">
+                        <span class="read-time">10 min read</span>
+                        <span class="expand-icon">→</span>
+                    </div>
+                </div>
+
+                <!-- Article 10 -->
+                <div class="article-card" onclick="openArticle(10)">
+                    <div class="article-header">
+                        <span class="article-badge">AI</span>
+                        <span class="article-date">2020s</span>
+                    </div>
+                    <h3>Mathematics in AI & Machine Learning</h3>
+                    <p>How ancient and modern mathematics power today's artificial intelligence revolution.</p>
+                    <div class="article-footer">
+                        <span class="read-time">9 min read</span>
+                        <span class="expand-icon">→</span>
+                    </div>
+                </div>
+
+                <!-- Article 11 -->
+                <div class="article-card" onclick="openArticle(11)">
+                    <div class="article-header">
+                        <span class="article-badge">CRYPTOGRAPHY</span>
+                        <span class="article-date">Modern</span>
+                    </div>
+                    <h3>Mathematics of Cryptography</h3>
+                    <p>How mathematical principles protect our digital privacy and secure our communications.</p>
+                    <div class="article-footer">
+                        <span class="read-time">8 min read</span>
+                        <span class="expand-icon">→</span>
+                    </div>
+                </div>
+
+                <!-- Article 12 -->
+                <div class="article-card" onclick="openArticle(12)">
+                    <div class="article-header">
+                        <span class="article-badge">PHILOSOPHY</span>
+                        <span class="article-date">Timeless</span>
+                    </div>
+                    <h3>The Philosophy of Mathematics</h3>
+                    <p>Is mathematics discovered or invented? Explore the philosophical depths of mathematics.</p>
+                    <div class="article-footer">
+                        <span class="read-time">11 min read</span>
+                        <span class="expand-icon">→</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal for Articles -->
+    <div id="articleModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeArticle()">&times;</span>
+            <div id="articleBody"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; Rebel Alliance Tools. All features run in your browser.</p>
+    </footer>
+
+<script>
+// Snippet data (self-contained)
+const snippets = [
+    {id:'bubble', title:'Bubble Sort (Python)', lang:'python', cat:'python', desc:'In-place bubble sort (ascending).', code:`def bubble_sort(arr):\n    n = len(arr)\n    for i in range(n):\n        for j in range(0, n-i-1):\n            if arr[j] > arr[j+1]:\n                arr[j], arr[j+1] = arr[j+1], arr[j]\n    return arr`},
+    {id:'linear', title:'Linear Search (Python)', lang:'python', cat:'python', desc:'Return index of target or -1.', code:`def linear_search(arr, target):\n    for i, v in enumerate(arr):\n        if v == target:\n            return i\n    return -1`},
+    {id:'binary', title:'Binary Search (Python)', lang:'python', cat:'python', desc:'Iterative binary search (sorted array).', code:`def binary_search(arr, target):\n    lo, hi = 0, len(arr)-1\n    while lo <= hi:\n        mid = (lo+hi)//2\n        if arr[mid] == target:\n            return mid\n        if arr[mid] < target:\n            lo = mid + 1\n        else:\n            hi = mid - 1\n    return -1`},
+    {id:'rand-one', title:'Random Number (Python)', lang:'python', cat:'python', desc:'Generate a random integer in a range.', code:`import random\n\ndef rand_int(a, b):\n    return random.randint(a, b)`},
+    {id:'rand-array', title:'Random Array (Python)', lang:'python', cat:'python', desc:'Generate an array filled with random integers.', code:`import random\n\ndef rand_array(n, a, b):\n    return [random.randint(a, b) for _ in range(n)]`},
+    {id:'factorial', title:'Factorial (Python)', lang:'python', cat:'python', desc:'Iterative factorial.', code:`def factorial(n):\n    result = 1\n    for i in range(2, n+1):\n        result *= i\n    return result`},
+    {id:'merge', title:'Merge Sort (Python)', lang:'python', cat:'python', desc:'Stable merge sort (returns new list).', code:`def merge_sort(arr):\n    if len(arr) <= 1:\n        return arr\n    mid = len(arr)//2\n    left = merge_sort(arr[:mid])\n    right = merge_sort(arr[mid:])\n    res = []\n    i = j = 0\n    while i < len(left) and j < len(right):\n        if left[i] <= right[j]:\n            res.append(left[i]); i += 1\n        else:\n            res.append(right[j]); j += 1\n    res.extend(left[i:]); res.extend(right[j:])\n    return res`},
+    {id:'quick', title:'Quick Sort (Python)', lang:'python', cat:'python', desc:'In-place quicksort (Lomuto partition).', code:`def quick_sort(arr, lo=0, hi=None):\n    if hi is None: hi = len(arr)-1\n    if lo < hi:\n        p = partition(arr, lo, hi)\n        quick_sort(arr, lo, p-1)\n        quick_sort(arr, p+1, hi)\n    return arr\n\ndef partition(arr, lo, hi):\n    pivot = arr[hi]\n    i = lo\n    for j in range(lo, hi):\n        if arr[j] <= pivot:\n            arr[i], arr[j] = arr[j], arr[i]\n            i += 1\n    arr[i], arr[hi] = arr[hi], arr[i]\n    return i`},
+    {id:'palindrome', title:'Palindrome Check (Python)', lang:'python', cat:'python', desc:'Checks if string is palindrome (alphanumeric).', code:`def is_palindrome(s):\n    s = ''.join(ch.lower() for ch in s if ch.isalnum())\n    return s == s[::-1]`},
+    {id:'fib', title:'Fibonacci (Python)', lang:'python', cat:'python', desc:'Iterative Fibonacci (returns list).', code:`def fib(n):\n    if n <= 0: return []\n    res = [0,1][:n]\n    while len(res) < n:\n        res.append(res[-1] + res[-2])\n    return res`}
+];
+
+// IT Articles
+const articles = {
+    1: {
+        title: "The Origins of Computing",
+        badge: "HISTORY",
+        content: `<h2>The Origins of Computing ✦</h2><p>Computing didn't start with silicon chips or transistors. It began with humans trying to automate calculation. From the abacus to Babbage's Analytical Engine, the journey to modern computers spans thousands of years.</p><h3>Early Computing Devices</h3><p>The abacus (c. 2700-2300 BC) was the first mechanical calculator. Babylonians, Egyptians, Greeks, and Chinese civilizations all developed versions.</p><h3>The Difference Engine</h3><p>In 1822, Charles Babbage designed the Difference Engine, a mechanical computer meant to automatically calculate polynomial functions. It was never fully built in his lifetime.</p><h3>The Analytical Engine</h3><p>Babbage's Analytical Engine (1837) was programmable - it could execute sequences of operations. Ada Lovelace wrote what's considered the first computer program for it.</p><h3>The First Computers</h3><p>ENIAC (1946), the first general-purpose electronic digital computer, weighed 30 tons and consumed 150 kilowatts of power. Modern smartphones are millions of times more powerful.</p><button class="interactive-btn btn" onclick="alert('Ada Lovelace is considered the first computer programmer, over 100 years before the first computer was built!')">✦ Ada Lovelace</button>`
+    },
+    2: {
+        title: "Programming Languages Evolution",
+        badge: "LANGUAGES",
+        content: `<h2>Programming Languages Evolution ✰</h2><p>From machine code to Python, programming languages have evolved to be more human-readable and powerful. Each generation solved problems from the previous one.</p><h3>Machine Code & Assembly</h3><p>The earliest programs were written directly in machine code - binary instructions the CPU could execute. Assembly languages provided mnemonics like ADD, MOV, JMP.</p><h3>First High-Level Languages</h3><p>FORTRAN (1957) and COBOL (1959) let programmers write more readable code. ALGOL influenced all modern languages.</p><h3>The C Revolution</h3><p>C (1972) combined efficiency with readability. It became the standard for systems programming and influenced virtually every modern language.</p><h3>Object-Oriented Revolution</h3><p>Smalltalk (1972) and C++ (1983) introduced objects. This paradigm became dominant in the 1990s-2000s.</p><h3>Modern Languages</h3><p>Python (1991) prioritizes readability. Go (2009) focuses on concurrency. Rust (2010) adds memory safety.</p><button class="interactive-btn btn" onclick="alert('Programming language design is about solving real problems. Each new language learns from the previous generation.')">✦ Language Design</button>`
+    },
+    3: {
+        title: "The World Wide Web",
+        badge: "WEB",
+        content: `<h2>The World Wide Web ✭</h2><p>In 1989, Tim Berners-Lee, a physicist at CERN, invented the World Wide Web to help scientists share research. He created HTML, HTTP, and the first web browser.</p><h3>The Problem He Solved</h3><p>Scientists at CERN needed to share documents across different computers and operating systems. Email was fragmented. Berners-Lee created a unified system.</p><h3>The Three Technologies</h3><p>• HTML: Markup language for documents<br>• HTTP: Protocol for transferring web pages<br>• URLs: Addresses for documents on the internet</p><h3>From Academic Tool to Global Network</h3><p>The web started at CERN in 1991. By 1995, it exploded in popularity. Today, the web is humanity's primary information platform.</p><h3>Web 1.0, 2.0, 3.0</h3><p>Web 1.0: Static pages (1991-2004)<br>Web 2.0: Interactive, user-generated content, social media (2004-2010)<br>Web 3.0: Decentralized, blockchain-based (emerging)</p><button class="interactive-btn btn" onclick="alert('Tim Berners-Lee famously did NOT patent the web. He released it freely, enabling its explosive growth!')">✦ Open Web</button>`
+    },
+    4: {
+        title: "How Databases Work",
+        badge: "DATABASES",
+        content: `<h2>How Databases Work ◉</h2><p>A database is an organized collection of data with an engine that retrieves it efficiently. Modern databases handle trillions of operations per second.</p><h3>Relational Databases</h3><p>SQL databases organize data in tables with rows and columns. ACID properties ensure data reliability: Atomicity, Consistency, Isolation, Durability.</p><h3>Indexes & Performance</h3><p>An index is like a book's table of contents. Without an index, finding data requires scanning every row (O(n)). With an index (B-tree), it's O(log n) - millions of times faster.</p><h3>Query Optimization</h3><p>The query optimizer decides how to execute your SQL. The difference between a good and bad query plan can mean seconds vs. hours.</p><h3>NoSQL & Modern Databases</h3><p>MongoDB, Cassandra, and Redis offer flexibility for unstructured data. They trade consistency for availability and partition tolerance (CAP theorem).</p><h3>Sharding & Replication</h3><p>To scale, databases are split across machines (sharding) and replicated for reliability. This adds complexity but enables global scale.</p><button class="interactive-btn btn" onclick="alert('A single index change can make a query 1000x faster. Database tuning is where optimization really matters!')">✦ Database Tuning</button>`
+    },
+    5: {
+        title: "Understanding Algorithms",
+        badge: "ALGORITHMS",
+        content: `<h2>Understanding Algorithms & Big O ⚙</h2><p>An algorithm is a step-by-step procedure. Big O notation measures how time/space grows with input size. Choosing the right algorithm can mean seconds vs. years.</p><h3>Common Complexities</h3><p>O(1) - Constant: Hash table lookup<br>O(log n) - Logarithmic: Binary search<br>O(n) - Linear: Simple loop<br>O(n²) - Quadratic: Bubble sort<br>O(2ⁿ) - Exponential: Naive recursion</p><h3>Why It Matters</h3><p>For n=1,000,000: O(n) = 1M ops (fast). O(n²) = 1 trillion ops (slow).</p><h3>Optimization Strategies</h3><p>• Better algorithm (sorting O(n²)→O(n log n))<br>• Better data structure (array O(n)→O(1))<br>• Caching/memoization<br>• Parallel processing</p><h3>Practical Examples</h3><p>Netflix finding recommendations, Google searching the web, trading firms analyzing markets - all rely on selecting the right algorithms.</p><button class="interactive-btn btn" onclick="alert('Choosing QuickSort over BubbleSort can be 1000x faster on large datasets!')">✦ Algorithm Power</button>`
+    },
+    6: {
+        title: "Cybersecurity Essentials",
+        badge: "SECURITY",
+        content: `<h2>Cybersecurity: Threats & Defenses 🔒</h2><p>Every second, millions of cyber attacks occur. Understanding threats and defenses is critical for every developer and internet user.</p><h3>Common Threats</h3><p><strong>SQL Injection:</strong> Malicious SQL commands in user input → Use parameterized queries<br><strong>XSS:</strong> JavaScript injection → Sanitize HTML<br><strong>CSRF:</strong> Trick users into actions → Use CSRF tokens<br><strong>Man-in-the-Middle:</strong> Intercept traffic → Use HTTPS/TLS</p><h3>Best Practices</h3><p>• Use HTTPS everywhere<br>• Hash passwords (bcrypt, Argon2)<br>• Never trust user input<br>• Use security headers<br>• Keep dependencies updated<br>• Regular security audits</p><h3>Defense in Depth</h3><p>Layer your security: firewalls → WAF → application → database encryption. No single defense is perfect.</p><h3>Zero Trust Security</h3><p>Modern security assumes: never trust, always verify. Every request is authenticated and authorized.</p><button class="interactive-btn btn" onclick="alert('One unpatched vulnerability can compromise millions of users!')">✦ Security Alert</button>`
+    },
+    7: {
+        title: "Version Control & Git",
+        badge: "GIT",
+        content: `<h2>Version Control & Git Mastery ◈</h2><p>Git is the most popular version control system. It tracks every change, enables collaboration, and lets you revert mistakes instantly.</p><h3>Git Basics</h3><p>Git stores snapshots of your code at each commit. Each commit points to the previous one, forming a history tree.</p><h3>Key Concepts</h3><p><strong>Branches:</strong> Parallel development paths<br><strong>Merge:</strong> Combine branches (can conflict)<br><strong>Rebase:</strong> Replay commits on a new base<br><strong>Stash:</strong> Temporarily save work</p><h3>Workflows</h3><p>• Feature branches + Pull requests: Safe, reviewed<br>• Trunk-based: Everything on main<br>• Git-flow: Complex, for large teams</p><h3>Distributed Collaboration</h3><p>Git is distributed - every developer has a full copy. This enables offline work and resilience.</p><h3>Git at Scale</h3><p>Companies like Google manage billions of lines of code with Git. Understanding branching and merging is essential.</p><button class="interactive-btn btn" onclick="alert('Git saved more projects than we can count. Master branching and merging!')">✦ Git Magic</button>`
+    },
+    8: {
+        title: "Cloud Computing",
+        badge: "CLOUD",
+        content: `<h2>Cloud Computing & AWS ☁</h2><p>Cloud computing lets you rent computing resources instead of owning servers. This revolutionized how software is deployed and scaled.</p><h3>Cloud Providers</h3><p>AWS (33% market share), Google Cloud, Microsoft Azure dominate the market. Each has strengths in different areas.</p><h3>Core Services</h3><p><strong>Compute:</strong> EC2 (servers), Lambda (serverless)<br><strong>Storage:</strong> S3 (files), EBS (disk)<br><strong>Databases:</strong> RDS (SQL), DynamoDB (NoSQL)<br><strong>Networking:</strong> VPC, Load Balancers, CDN</p><h3>Scaling Benefits</h3><p>• Pay only for what you use<br>• Auto-scaling for traffic spikes<br>• Global deployment in seconds<br>• Built-in redundancy and disaster recovery</p><h3>Serverless Revolution</h3><p>AWS Lambda lets you run code without managing servers. You pay per execution. Perfect for event-driven architectures.</p><button class="interactive-btn btn" onclick="alert('Netflix streams to billions using AWS. Cloud computing enabled the streaming revolution.')">✦ Scale to Billions</button>`
+    },
+    9: {
+        title: "Machine Learning Basics",
+        badge: "AI/ML",
+        content: `<h2>Machine Learning for Developers 🤖</h2><p>Machine Learning powers recommendation systems, fraud detection, and AI assistants. You don't need a PhD to use ML.</p><h3>Three Types of ML</h3><p><strong>Supervised:</strong> Learn from labeled examples (email→spam/not spam)<br><strong>Unsupervised:</strong> Find patterns in unlabeled data<br><strong>Reinforcement:</strong> Learn by trial and error (game AI)</p><h3>ML Workflow</h3><p>1. Collect data<br>2. Clean & preprocess<br>3. Choose model<br>4. Train<br>5. Validate & tune<br>6. Test & deploy<br>7. Monitor</p><h3>Popular Frameworks</h3><p>Python: TensorFlow, PyTorch, Scikit-learn<br>JavaScript: TensorFlow.js<br>Cloud: AWS SageMaker, Google AI</p><h3>The Challenge</h3><p>Good models need: quality data, feature engineering, domain expertise, and ethical considerations (bias, fairness).</p><h3>Real-World Impact</h3><p>Medical diagnosis, drug discovery, autonomous vehicles, language translation - all enabled by ML.</p><button class="interactive-btn btn" onclick="alert('ML models can perpetuate societal biases. Always consider fairness!')">✦ Ethical ML</button>`
+    },
+    10: {
+        title: "DevOps & CI/CD",
+        badge: "DEVOPS",
+        content: `<h2>DevOps & CI/CD Pipelines 🔄</h2><p>DevOps bridges development and operations. CI/CD automates building, testing, and deploying - enabling rapid, safe releases.</p><h3>The CI/CD Pipeline</h3><p>1. Developer pushes code<br>2. Tests run automatically<br>3. Code quality checks<br>4. Build docker image<br>5. Deploy to staging<br>6. Human approval<br>7. Deploy to production</p><h3>Key Tools</h3><p>CI/CD: GitHub Actions, GitLab CI, Jenkins<br>Containerization: Docker<br>Orchestration: Kubernetes<br>Infrastructure: Terraform<br>Monitoring: Prometheus, Grafana</p><h3>Benefits</h3><p>• Faster releases (minutes vs. months)<br>• Fewer bugs (automated testing)<br>• Faster recovery (instant rollback)<br>• Team alignment (enforced standards)</p><h3>Modern Deployments</h3><p>Netflix deploys thousands of times per day. Amazon deploys every second. DevOps made this possible.</p><button class="interactive-btn btn" onclick="alert('DevOps transformed software delivery. Master it to compete.')">✦ Deployment Speed</button>`
+    },
+    11: {
+        title: "Blockchain & Cryptography",
+        badge: "BLOCKCHAIN",
+        content: `<h2>Blockchain & Cryptography 🔐</h2><p>Blockchain uses cryptography to create decentralized, tamper-proof ledgers. Every transaction is mathematically secured.</p><h3>How Blockchain Works</h3><p>1. Transaction created<br>2. Broadcast to network<br>3. Miners verify & bundle<br>4. Block contains: prev hash + data hash + nonce<br>5. Miners solve puzzle (Proof-of-Work)<br>6. Consensus adds to chain<br>7. Immutable forever</p><h3>Cryptographic Foundation</h3><p><strong>Hash functions:</strong> One-way, deterministic (SHA-256)<br><strong>Public-key crypto:</strong> Sign with private, verify with public<br><strong>Digital signatures:</strong> Prove authorization</p><h3>Properties</h3><p>• Immutable: Can't change past blocks<br>• Transparent: Everyone sees transactions<br>• Decentralized: No single authority<br>• Secure: Cryptography prevents tampering</p><h3>Real Applications</h3><p>Bitcoin, Ethereum, smart contracts, supply chain tracking, identity verification.</p><h3>The Tradeoff</h3><p>Blockchains are slow (Bitcoin: 7 tx/sec vs. Visa: 24k). They're useful for trust without intermediaries.</p><button class="interactive-btn btn" onclick="alert('Bitcoin has processed 800M+ transactions without a 51% attack. Remarkable security record!')">✦ Security Record</button>`
+    },
+    12: {
+        title: "The Future of Computing",
+        badge: "FUTURE",
+        content: `<h2>The Future of Computing 🚀</h2><p>What's next? Quantum computing, edge computing, AI everywhere, or something we haven't imagined?</p><h3>Quantum Computing</h3><p>Quantum computers use qubits (superposition of 0 and 1). Could solve certain problems exponentially faster. Still in early stages.</p><h3>Edge Computing</h3><p>Process data on devices/nearby servers instead of cloud. Better latency, privacy, reduced bandwidth. Perfect for IoT and real-time systems.</p><h3>AI Everywhere</h3><p>AI will be embedded in everything: phones, cars, homes. Raises questions: privacy, bias, job displacement, ethics.</p><h3>Web3 & Decentralization</h3><p>Shift from centralized platforms to decentralized protocols. Blockchain-based or peer-to-peer systems.</p><h3>Challenges Ahead</h3><p>• Climate impact of computing<br>• Cybersecurity threats<br>• Privacy vs. surveillance<br>• Job displacement<br>• Ethical AI development</p><h3>Opportunities</h3><p>The next decade will see revolutionary advances. The choices we make now - about ethics, sustainability, and priorities - will shape the future.</p><button class="interactive-btn btn" onclick="alert('The best time to learn new tech is always now. Stay curious!')">✦ Stay Curious</button>`
+    }
+};
+
+function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function renderSnippets(){
+    const q = (document.getElementById('searchBox').value||'').toLowerCase().trim();
+    const cat = document.getElementById('catFilter').value;
+    const el = document.getElementById('snippetList');
+    const filtered = snippets.filter(s => (cat==='all' || s.cat===cat) && (s.title.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q) || s.code.toLowerCase().includes(q)) );
+    if(filtered.length===0){ el.innerHTML='<div style="color:#bbb;padding:8px">No snippets found.</div>'; return; }
+    el.innerHTML = filtered.map(s=>`
+        <div style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.03)">
+            <div class="snippet-title">
+                <div>${s.title} <span style="color:#ffd; font-weight:500">[${s.lang}]</span></div>
+                <div style="display:flex;gap:8px"><button class="btn" onclick='copySnippet("${s.id}")'>Copy</button><button class="btn" onclick='toggleCode("${s.id}")'>View</button></div>
+            </div>
+            <div class="small">${s.desc}</div>
+            <pre id="code-${s.id}" class="snippet-code" style="display:none">${escapeHtml(s.code)}</pre>
+        </div>
+    `).join('');
+}
+
+async function copySnippet(id){
+    const s = snippets.find(x=>x.id===id);
+    if(!s) return;
+    try{ await navigator.clipboard.writeText(s.code); alert('Snippet copied to clipboard'); }
+    catch(e){ // fallback
+        const pre = document.getElementById('code-'+id);
+        if(pre){ const range = document.createRange(); range.selectNode(pre); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); window.getSelection().removeAllRanges(); alert('Snippet copied (fallback)'); }
+    }
+}
+
+function toggleCode(id){
+    const el = document.getElementById('code-'+id);
+    if(!el) return;
+    el.style.display = el.style.display==='none' ? 'block' : 'none';
+}
+
+// Developer Tools: Prime check, GCD, Base converter
+function isPrime(n){
+    if(n <= 1) return false;
+    if(n <= 3) return true;
+    if(n % 2 === 0) return false;
+    const r = Math.floor(Math.sqrt(n));
+    for(let i=3;i<=r;i+=2) if(n % i === 0) return false;
+    return true;
+}
+
+function checkPrime(){
+    const v = Number(document.getElementById('primeN').value);
+    const out = document.getElementById('primeOut');
+    if(!Number.isFinite(v) || Math.floor(v) !== v){ out.textContent='Enter a valid integer'; return; }
+    out.textContent = isPrime(Math.abs(v)) ? `${v} is prime` : `${v} is not prime`;
+}
+
+function calcHcf(){
+    let a = Math.abs(Number(document.getElementById('hcfA').value));
+    let b = Math.abs(Number(document.getElementById('hcfB').value));
+    const out = document.getElementById('hcfOut');
+    if(!Number.isFinite(a) || !Number.isFinite(b)){ out.textContent='Enter two integers'; return; }
+    while(b){ const t = b; b = a % b; a = t; }
+    out.textContent = `HCF = ${a}`;
+}
+
+function convertBase(){
+    const val = (document.getElementById('baseVal').value||'').trim();
+    const from = Number(document.getElementById('fromBase').value) || 10;
+    const to = Number(document.getElementById('toBase').value) || 10;
+    const out = document.getElementById('baseOut');
+    try{
+        if(from < 2 || from > 36 || to < 2 || to > 36) { out.textContent='Bases must be between 2 and 36'; return; }
+        const n = parseInt(val, from);
+        if(Number.isNaN(n)){ out.textContent='Invalid number for the given from-base'; return; }
+        out.textContent = `Result: ${n.toString(to).toUpperCase()} (base ${to})`;
+    }catch(e){ out.textContent = 'Error: '+e.message; }
+}
+
+function convertCase(mode){
+    const txt = (document.getElementById('caseIn').value||'');
+    let out='';
+    if(mode==='upper') out = txt.toUpperCase();
+    else if(mode==='lower') out = txt.toLowerCase();
+    else if(mode==='title') out = txt.replace(/\w\S*/g, w => w.charAt(0).toUpperCase()+w.substr(1).toLowerCase());
+    document.getElementById('caseOut').textContent = out;
+}
+
+function b64Encode(){ try{ const s = document.getElementById('b64In').value||''; document.getElementById('b64Out').textContent = btoa(unescape(encodeURIComponent(s))); }catch(e){ document.getElementById('b64Out').textContent = 'Encode error'; } }
+function b64Decode(){ try{ const s = document.getElementById('b64In').value||''; document.getElementById('b64Out').textContent = decodeURIComponent(escape(atob(s))); }catch(e){ document.getElementById('b64Out').textContent = 'Decode error'; } }
+
+function genHex(){ const h = '#'+Array.from({length:6},()=>Math.floor(Math.random()*16).toString(16)).join(''); document.getElementById('hexOut').textContent = h; }
+
+function rgbToHex(){ const v = (document.getElementById('rgbIn').value||'').split(',').map(s=>Number(s.trim())); if(v.length!==3 || v.some(n=>isNaN(n)||n<0||n>255)){ document.getElementById('rgbhexOut').textContent='Enter R,G,B 0-255'; return;} const h = '#'+v.map(n=>n.toString(16).padStart(2,'0')).join(''); document.getElementById('rgbhexOut').textContent = h; }
+
+function hexToRgb(){ const h = (document.getElementById('hexIn').value||'').replace('#',''); if(!/^[0-9a-fA-F]{6}$/.test(h)){ document.getElementById('rgbhexOut').textContent='Enter 6-digit hex like #1a2b3c'; return; } const r = parseInt(h.slice(0,2),16), g = parseInt(h.slice(2,4),16), b = parseInt(h.slice(4,6),16); document.getElementById('rgbhexOut').textContent = `${r}, ${g}, ${b}`; }
+
+function genLorem(){ const n = Math.min(200, Math.max(1, parseInt(document.getElementById('loremN').value) || 20)); const words = "lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua".split(' '); let out=[]; for(let i=0;i<n;i++) out.push(words[i%words.length]); document.getElementById('loremOut').textContent = out.join(' ')+'.'; }
+
+function collapseWhitespace(){ const t = (document.getElementById('trimIn').value||'').trim().replace(/\s+/g,' '); document.getElementById('trimOut').textContent = t; }
+
+function reverseString(){ const t = (document.getElementById('revIn').value||''); document.getElementById('revOut').textContent = t.split('').reverse().join(''); }
+
+// Modal functions for articles
+function openArticle(num) {
+    const article = articles[num];
+    const modal = document.getElementById('articleModal');
+    const content = document.getElementById('articleContent');
+    content.innerHTML = article.content;
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeArticle() {
+    document.getElementById('articleModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+window.onclick = function(event) {
+    const modal = document.getElementById('articleModal');
+    if (event.target == modal) {
+        closeArticle();
+    }
+}
+
+// initial
+renderSnippets();
+// Modal functions for articles
+function openArticle(num) {
+    const article = articles[num];
+    const modal = document.getElementById('articleModal');
+    const body = document.getElementById('articleBody');
+    body.innerHTML = article.content;
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeArticle() {
+    document.getElementById('articleModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+window.onclick = function(event) {
+    const modal = document.getElementById('articleModal');
+    if (event.target == modal) {
+        closeArticle();
+    }
+}
+
+function showFact(fact) {
+    alert(fact);
+}
+
+// Dynamic features on page load
+document.addEventListener('DOMContentLoaded', function() {
+    renderSnippets();
+    addCardAnimations();
+    addScrollAnimations();
+    addArticleCardGradient();
+    addRealtimeAnimations();
+    fetchAndApplyMetadata();
+});
+
+function addCardAnimations() {
+    const articleCards = document.querySelectorAll('.article-card');
+    articleCards.forEach((card, index) => {
+        card.style.animationDelay = (index * 0.1) + 's';
+        card.addEventListener('mouseenter', function() {
+            this.style.filter = 'brightness(1.2)';
+        });
+        card.addEventListener('mouseleave', function() {
+            this.style.filter = 'brightness(1)';
+        });
+    });
+}
+
+function addScrollAnimations() {
+    const elements = document.querySelectorAll('.article-card');
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animation = 'slideInUp 0.6s ease-out forwards';
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    elements.forEach(el => observer.observe(el));
+}
+
+function addArticleCardGradient() {
+    const cards = document.querySelectorAll('.article-card');
+    window.addEventListener('scroll', function() {
+        cards.forEach(card => {
+            const rect = card.getBoundingClientRect();
+            const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+            
+            if (isVisible) {
+                const opacity = Math.max(0.3, 1 - Math.abs(rect.top - window.innerHeight / 2) / window.innerHeight);
+                card.style.filter = `drop-shadow(0 0 ${opacity * 30}px rgba(34, 197, 94, 0.4))`;
+            }
+        });
+    });
+}
+
+function addRealtimeAnimations() {
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes cardBobbing { 0% { transform: translateY(0px); } 50% { transform: translateY(-4px); } 100% { transform: translateY(0px); } }
+        .article-card { will-change: transform; }
+        .card-bob { animation-name: cardBobbing; animation-timing-function: ease-in-out; animation-iteration-count: infinite; }
+    `;
+    document.head.appendChild(style);
+
+    const cards = document.querySelectorAll('.article-card');
+    cards.forEach((card, i) => {
+        card.classList.add('card-bob');
+        const duration = (3 + Math.random() * 2).toFixed(2) + 's';
+        const delay = (Math.random() * 2).toFixed(2) + 's';
+        card.style.animationDuration = duration;
+        card.style.animationDelay = delay;
+        card.style.transform = card.style.transform || '';
+    });
+}
+
+// Fetch metadata from server and apply dynamic ordering
+function fetchAndApplyMetadata() {
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    function generateLocalMetadata() {
+        const greetings = [
+            "Welcome to IT Tools",
+            "Hello — explore tools",
+            "Discover utilities",
+            "Greetings, developer",
+            "Fresh tools for you"
+        ];
+
+        // Shuffle articles
+        const cards = Array.from(document.querySelectorAll('.article-card'));
+        const ids = cards.map((el, idx) => {
+            if (!el.dataset.cardId) el.dataset.cardId = 'card-' + (idx + 1);
+            return el.dataset.cardId;
+        });
+
+        const shuffled = shuffleArray(ids.slice());
+        const tags = {};
+        cards.forEach(el => {
+            const id = el.dataset.cardId;
+            const badge = el.querySelector('.article-badge');
+            tags[id] = badge ? badge.textContent : '';
+        });
+
+        return {
+            greeting: greetings[Math.floor(Math.random() * greetings.length)],
+            order: shuffled,
+            tags
+        };
+    }
+
+    function applyMetadata(data) {
+        try {
+            const grid = document.querySelector('.articles-grid');
+            const articleCards = Array.from(document.querySelectorAll('.article-card'));
+            articleCards.forEach((el, idx) => { if (!el.dataset.cardId) el.dataset.cardId = 'card-' + (idx + 1); });
+
+            if (Array.isArray(data.order) && data.order.length && grid) {
+                data.order.forEach(id => {
+                    const el = articleCards.find(a => a.dataset.cardId === id);
+                    if (el) grid.appendChild(el);
+                    if (el && data.tags && data.tags[id]) {
+                        const badge = el.querySelector('.article-badge');
+                        if (badge) badge.textContent = data.tags[id];
+                    }
+                });
+            }
+        } catch (e) { console.warn('metadata apply error', e); }
+    }
+
+    // Generate local randomized metadata
+    applyMetadata(generateLocalMetadata());
+}
+</script>
+<!-- Boredom Slide-in Popup (GREEN THEME) -->
+<div id="boredPopup" style="
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    width: 360px;
+
+    /* 🟢 GREEN GLASS BACKGROUND */
+    background: rgba(20, 83, 45, 0.35);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    color: #dcfce7;
+
+    padding: 26px 28px;
+    border-radius: 16px;
+    box-shadow:
+        0 18px 50px rgba(0, 0, 0, 0.45),
+        0 0 30px rgba(34, 197, 94, 0.45);
+
+    border: 1px solid rgba(134, 239, 172, 0.35);
+
+    font-size: 1.05rem;
+    z-index: 9999;
+    transform: translateX(120%);
+    opacity: 0;
+    transition: transform 0.6s ease, opacity 0.6s ease;
+">
+    <p style="
+        margin-bottom: 22px;
+        line-height: 1.5;
+        color: #bbf7d0;
+    ">
+        😴 Feel bored? <br>
+        <span style="color:#86efac; font-size:0.95rem;">
+            Here’s something cool for you.
+        </span>
+    </p>
+
+    <div style="display: flex; gap: 14px;">
+        <button onclick="handleLetsGo()" style="
+            flex: 1;
+            padding: 12px 14px;
+            font-size: 0.95rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #22c55e, #15803d);
+            color: #ecfdf5;
+            box-shadow: 0 0 16px rgba(34,197,94,0.6);
+        ">
+            Let’s Go
+        </button>
+
+        <button onclick="handleNoThanks()" style="
+            flex: 1;
+            padding: 12px 14px;
+            font-size: 0.95rem;
+            border-radius: 10px;
+            cursor: pointer;
+            background: rgba(255,255,255,0.05);
+            color: #bbf7d0;
+            border: 1px solid rgba(134, 239, 172, 0.4);
+        ">
+            No Thanks
+        </button>
+    </div>
+</div>
+
+<script>
+(function () {
+    const POPUP_INTERVAL = 10 * 1000;
+    const popup = document.getElementById("boredPopup");
+    let popupVisible = false;
+
+    /* ---------- AUDIO SYSTEM ---------- */
+    let audioCtx = null;
+    let audioUnlocked = false;
+
+    function unlockAudio() {
+        if (audioUnlocked) return;
+
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        audioCtx.resume().then(() => {
+            audioUnlocked = true;
+        });
+
+        document.removeEventListener("click", unlockAudio);
+        document.removeEventListener("keydown", unlockAudio);
+    }
+
+    document.addEventListener("click", unlockAudio);
+    document.addEventListener("keydown", unlockAudio);
+
+    /* ❌ SHARP CLICK (No Thanks) */
+    function playClickSound() {
+        if (!audioUnlocked) return;
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = "square";
+        osc.frequency.value = 900;
+        gain.gain.value = 0.06;
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.06);
+    }
+
+    /* ✅ SOFT TAP / CONFIRM (Let’s Go) */
+    function playConfirmSound() {
+        if (!audioUnlocked) return;
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(420, audioCtx.currentTime);
+
+        gain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+        gain.gain.linearRampToValueAtTime(
+            0.045,
+            audioCtx.currentTime + 0.01
+        );
+        gain.gain.exponentialRampToValueAtTime(
+            0.0001,
+            audioCtx.currentTime + 0.12
+        );
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.13);
+    }
+
+    /* 🌬️ POPUP APPEAR WHOOSH */
+    function playAppearSound() {
+        if (!audioUnlocked) return;
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(320, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(
+            620,
+            audioCtx.currentTime + 0.18
+        );
+
+        gain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(
+            0.035,
+            audioCtx.currentTime + 0.05
+        );
+        gain.gain.exponentialRampToValueAtTime(
+            0.0001,
+            audioCtx.currentTime + 0.28
+        );
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.3);
+    }
+
+    /* ---------- POPUP LOGIC ---------- */
+    function showPopup() {
+        if (popupVisible) return;
+
+        popup.style.transform = "translateX(0)";
+        popup.style.opacity = "1";
+        popupVisible = true;
+
+        playAppearSound();
+    }
+
+    function hidePopup() {
+        popup.style.transform = "translateX(120%)";
+        popup.style.opacity = "0";
+        popupVisible = false;
+    }
+
+    /* ---------- BUTTON HANDLERS ---------- */
+    window.handleNoThanks = function () {
+        playClickSound();
+        hidePopup();
+    };
+
+    window.handleLetsGo = function () {
+        playConfirmSound();
+        setTimeout(() => {
+            window.location.href = "games.html";
+        }, 140);
+    };
+
+    setTimeout(showPopup, 1500);
+    setInterval(showPopup, POPUP_INTERVAL);
+})();
+</script>
+
+</body>
+</html>
